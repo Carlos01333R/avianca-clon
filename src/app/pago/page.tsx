@@ -690,13 +690,13 @@ export default function PagoPage() {
         </div>
       )}
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-x-1">
         <button
           onClick={() => {
             setCurrentStep("passenger")
             window.scrollTo(0, 0)
           }}
-          className="border border-emerald-600 text-emerald-600 px-6 py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
+          className="border border-emerald-600 text-emerald-600 px-2 py-2  md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
         >
           <ArrowLeft className="mr-2 h-5 w-5" />
           Volver
@@ -704,7 +704,7 @@ export default function PagoPage() {
 
         <button
           onClick={handleNextStep}
-          className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center"
+          className="bg-emerald-600 text-white px-2 py-1 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center"
         >
           Revisar y confirmar
           <ChevronRight className="ml-2 h-5 w-5" />
@@ -718,7 +718,7 @@ export default function PagoPage() {
     <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
       <h2 className="text-xl font-bold mb-6">Confirmar y pagar</h2>
 
-      <div className="border-b pb-4 mb-4">
+      <div className="border-b pb-4 mb-4 border-emerald-500">
         <h3 className="font-bold text-lg mb-2">Resumen del vuelo</h3>
         <div className="flex flex-col md:flex-row justify-between">
           <div className="mb-4 md:mb-0">
@@ -745,16 +745,23 @@ export default function PagoPage() {
             </div>
           </div>
 
-          <div className="flex flex-col items-end">
+          <div className="flex flex-row justify-between md:flex-col items-end">
+            <section>
             <div className="text-sm text-gray-500 mb-1">Hora de salida</div>
             <div className="text-xl font-bold">{departureTime}</div>
+            </section>
+
+            <section>
             <div className="text-sm text-gray-500 mt-2 mb-1">Hora de llegada</div>
             <div className="text-xl font-bold">{arrivalTime}</div>
+            </section>
+          
+           
           </div>
         </div>
       </div>
 
-      <div className="border-b pb-4 mb-4">
+      <div className="border-b pb-4 mb-4 border-emerald-500">
         <h3 className="font-bold text-lg mb-2">Información del pasajero</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div>
@@ -765,7 +772,7 @@ export default function PagoPage() {
           </div>
           <div>
             <span className="text-gray-500">Email:</span>
-            <span className="ml-2 font-medium truncate">{passengerData.email}</span>
+            <span className="ml-2 font-medium truncate text-sm">{passengerData.email}</span>
           </div>
           <div>
             <span className="text-gray-500">Teléfono:</span>
@@ -781,7 +788,7 @@ export default function PagoPage() {
         </div>
       </div>
 
-      <div className="border-b pb-4 mb-4">
+      <div className="border-b pb-4 mb-4 border-emerald-500" >
         <h3 className="font-bold text-lg mb-2">Método de pago</h3>
         <div className="flex items-center">
           {paymentMethod === "credit" && (
@@ -855,7 +862,7 @@ export default function PagoPage() {
             </div>
           )}
 
-          <div className="border-t pt-2 mt-2 flex justify-between font-bold">
+          <div className="border-t pt-2 mt-2 flex justify-between font-bold border-emerald-500">
             <span>Total</span>
             <span className="text-emerald-600">{formatPrice(grandTotal)}</span>
           </div>
@@ -885,7 +892,7 @@ export default function PagoPage() {
             setCurrentStep("payment")
             window.scrollTo(0, 0)
           }}
-          className="border border-emerald-600 text-emerald-600 px-6 py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
+          className="border border-emerald-600 text-emerald-600 px-2 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
         >
           <ArrowLeft className="mr-2 h-5 w-5" />
           Volver
@@ -894,7 +901,7 @@ export default function PagoPage() {
         <button
           onClick={handleSubmitPayment}
           disabled={loading}
-          className={`bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
+          className={`bg-emerald-600 text-white px-2 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
         >
           {loading ? (
             <>
