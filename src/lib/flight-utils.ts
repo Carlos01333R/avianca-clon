@@ -1,11 +1,7 @@
 import type { Flight } from "@/types/flight"
 
 export function generateRandomFlights(
-  origin: string,
-  destination: string,
-  date: string,
-  passengers: number,
-  count: number,
+origin: string, destination: string, date: string, passengers: number, count: number, seed: number,
 ): Flight[] {
   const originCode = origin.match(/$$([^)]+)$$/)?.[1] || "BOG"
   const destinationCode = destination.match(/$$([^)]+)$$/)?.[1] || "MDE"
