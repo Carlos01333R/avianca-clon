@@ -42,7 +42,7 @@ export default function FlightCard({ flight, passengers }: FlightCardProps) {
             </div>
 
             <div className="flex flex-col items-center mx-4">
-              <div className="text-xs text-emerald-600 font-medium mb-1">{flight.direct ? "Directo" : "1 Escala"}</div>
+              <div className="text-xs text-red-600 font-medium mb-1">{flight.direct ? "Directo" : "1 Escala"}</div>
               <div className="relative w-20 md:w-32">
                 <div className="border-t border-gray-300 absolute w-full top-1/2"></div>
                 <div className="absolute -right-1 top-1/2 transform -translate-y-1/2">
@@ -59,7 +59,7 @@ export default function FlightCard({ flight, passengers }: FlightCardProps) {
           </div>
 
           <div className="hidden md:block md:w-1/3 text-center">
-            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium">
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-medium">
               {flight.direct ? "Vuelo directo" : "1 escala"}
             </div>
           </div>
@@ -75,7 +75,7 @@ export default function FlightCard({ flight, passengers }: FlightCardProps) {
         </section>
      
           <button
-            className="mt-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg px-6 py-2 text-sm font-medium transition"
+            className="mt-3 bg-red-600 hover:bg-red-700 text-white rounded-lg px-6 py-2 text-sm font-medium transition"
             onClick={handleSelectFlight}
           >
             Seleccionar

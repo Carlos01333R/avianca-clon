@@ -7,7 +7,7 @@ interface SiteLogoProps {
 export function SiteLogo({ className = "" }: SiteLogoProps) {
   return (
     <Image
-      src="/logo.jpg"
+      src="/logo.png"
       alt="Logo"
       width={120}   
       height={36}

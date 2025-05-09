@@ -25,14 +25,14 @@ export function ServicesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {services.map((service) => (
             <div key={service.id} className="bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 text-red-600 rounded-full mb-4">
                 {iconMap[service.icon]}
               </div>
               <h3 className="text-xl font-bold mb-2">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
               <Link
                 href={service.link}
-                className="text-emerald-600 font-medium hover:text-emerald-700 inline-flex items-center"
+                className="text-black inline-flex items-center font-bold"
               >
                 Saber más
                 <svg

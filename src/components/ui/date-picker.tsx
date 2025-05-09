@@ -176,8 +176,8 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
                 className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-sm
                   ${day.isCurrentMonth ? "" : "text-gray-400"}
-                  ${day.isToday ? "border border-emerald-500" : ""}
-                  ${day.isSelected ? "bg-emerald-500 text-white" : "hover:bg-gray-100"}
+                  ${day.isToday ? "border border-red-500" : ""}
+                  ${day.isSelected ? "bg-red-500 text-white" : "hover:bg-gray-100"}
                   ${day.isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                 `}
                 onClick={() => !day.isDisabled && handleDateClick(day.date)}

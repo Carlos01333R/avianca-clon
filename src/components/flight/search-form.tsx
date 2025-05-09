@@ -172,13 +172,13 @@ export default function SearchForm() {
       <div className="mt-6 flex justify-center">
         {!isLoading ? (
           <button
-            className="bg-emerald-500 text-white rounded-full px-12 py-3 font-medium hover:bg-emerald-300 transition"
+            className="bg-red-500 text-white rounded-full px-12 py-3 font-medium hover:bg-red-300 transition"
             onClick={handleSearch}
           >
             Buscar
           </button>
         ) : (
-          <button className="bg-emerald-500 text-white rounded-full px-12 py-3 font-medium disabled:bg-gray-300 transition">
+          <button className="bg-red-500 text-white rounded-full px-12 py-3 font-medium disabled:bg-gray-300 transition">
             Buscando...
           </button>
         )}

@@ -72,7 +72,7 @@ export default function CheckInPage() {
                     id="reservationCode"
                     value={reservationCode}
                     onChange={(e) => setReservationCode(e.target.value.toUpperCase())}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
                     placeholder="Ej: ABC123"
                     maxLength={6}
                   />
@@ -87,7 +87,7 @@ export default function CheckInPage() {
                     id="lastName"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
                     placeholder="Ingresa tu apellido"
                   />
                 </div>
@@ -95,7 +95,7 @@ export default function CheckInPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full bg-emerald-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center justify-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
+                  className={`w-full bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition flex items-center justify-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
                 >
                   {loading ? (
                     <>

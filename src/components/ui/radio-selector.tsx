@@ -17,7 +17,7 @@ export function RadioSelector({ options, value, onChange }: RadioSelectorProps) 
       {options.map((option) => (
         <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
           <div
-            className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${value === option.value ? "border-emerald-500 bg-emerald-500" : "border-gray-300"}`}
+            className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${value === option.value ? "border-red-500 bg-red-500" : "border-gray-300"}`}
           >
             {value === option.value && <div className="w-3 h-3 bg-white rounded-full"></div>}
           </div>

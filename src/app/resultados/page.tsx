@@ -89,7 +89,7 @@ export default function ResultadosPage() {
                 {` • ${passengers} ${passengers === 1 ? "pasajero" : "pasajeros"}`}
               </p>
             </div>
-            <button className="mt-4 md:mt-0 flex items-center text-emerald-600 font-medium">
+            <button className="mt-4 md:mt-0 flex items-center text-red-600 font-medium">
               <span>Modificar búsqueda</span>
               <ChevronDown className="w-4 h-4 ml-1" />
             </button>
@@ -99,7 +99,7 @@ export default function ResultadosPage() {
         {loading ? (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
             <div className="animate-pulse flex flex-col items-center">
-              <Plane className="w-12 h-12 text-emerald-500 mb-4" />
+              <Plane className="w-12 h-12 text-red-500 mb-4" />
               <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
               <div className="h-4 bg-gray-200 rounded w-1/4"></div>
             </div>

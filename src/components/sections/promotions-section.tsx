@@ -104,7 +104,7 @@ export function PromotionsSection() {
                     </div>
                     <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-between">
                       <div>
-                        <div className="text-sm text-emerald-600 font-medium mb-2">Oferta especial</div>
+                        <div className="text-sm text-red-600 font-medium mb-2">Oferta especial</div>
                         <h3 className="text-2xl font-bold mb-2">{promo.title}</h3>
                         <p className="text-gray-600 mb-4">{promo.description}</p>
                         <div className="flex items-center mb-4">
@@ -116,7 +116,7 @@ export function PromotionsSection() {
                         </div>
                       </div>
                       <button
-                        className="bg-emerald-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-emerald-700 transition"
+                        className="bg-red-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-red-700 transition"
                         onClick={() => handleReserveNow(promo)}
                       >
                         Reservar ahora
@@ -133,7 +133,7 @@ export function PromotionsSection() {
             {promotions.map((_, index) => (
               <button
                 key={index}
-                className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-emerald-500" : "bg-gray-300"}`}
+                className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-red-500" : "bg-gray-300"}`}
                 onClick={() => setCurrentIndex(index)}
               ></button>
             ))}

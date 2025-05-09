@@ -10,8 +10,8 @@ export default function EquipajeAdicionalPage() {
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="bg-white rounded-lg shadow-sm p-8">
           <div className="flex items-center justify-center mb-8">
-            <div className="bg-emerald-100 rounded-full p-4">
-              <Luggage className="w-12 h-12 text-emerald-600" />
+            <div className="bg-red-100 rounded-full p-4">
+              <Luggage className="w-12 h-12 text-red-600" />
             </div>
           </div>
 
@@ -26,7 +26,7 @@ export default function EquipajeAdicionalPage() {
               <p className="text-gray-600 mb-4">
                 Lleva contigo un artículo personal que quepa debajo del asiento delantero.
               </p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">Incluido</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">Incluido</div>
               <div className="text-gray-500">en todas las tarifas</div>
             </div>
 
@@ -35,7 +35,7 @@ export default function EquipajeAdicionalPage() {
               <p className="text-gray-600 mb-4">
                 Incluye una maleta de hasta 23 kg para guardar en la bodega del avión.
               </p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">Desde $50.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">Desde $50.000</div>
               <div className="text-gray-500">por trayecto</div>
             </div>
 
@@ -44,7 +44,7 @@ export default function EquipajeAdicionalPage() {
               <p className="text-gray-600 mb-4">
                 Añade maletas adicionales para llevar todo lo que necesitas en tu viaje.
               </p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">Desde $80.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">Desde $80.000</div>
               <div className="text-gray-500">por maleta adicional</div>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default function EquipajeAdicionalPage() {
           <div className="text-center">
             <Link
               href="/"
-              className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 transition inline-block"
+              className="bg-red-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-700 transition inline-block"
             >
               Añadir a mi reserva
             </Link>

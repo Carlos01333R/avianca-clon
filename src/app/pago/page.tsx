@@ -414,13 +414,13 @@ export default function PagoPage() {
             id="insurance"
             checked={selectedServices.insurance}
             onChange={() => handleServiceChange("insurance")}
-            className="mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
           />
           <label htmlFor="insurance" className="ml-3 flex-1 cursor-pointer">
             <div className="flex items-center">
-              <Shield className="h-5 w-5 text-emerald-600 mr-2" />
+              <Shield className="h-5 w-5 text-red-600 mr-2" />
               <span className="font-medium">Seguro de viaje</span>
-              <span className="ml-auto font-medium text-emerald-600">{formatPrice(insurancePrice)}</span>
+              <span className="ml-auto font-medium text-red-600">{formatPrice(insurancePrice)}</span>
             </div>
             <p className="text-sm text-gray-500 mt-1">Protege tu viaje contra imprevistos y emergencias médicas</p>
           </label>
@@ -432,13 +432,13 @@ export default function PagoPage() {
             id="luggage"
             checked={selectedServices.luggage}
             onChange={() => handleServiceChange("luggage")}
-            className="mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
           />
           <label htmlFor="luggage" className="ml-3 flex-1 cursor-pointer">
             <div className="flex items-center">
-              <Luggage className="h-5 w-5 text-emerald-600 mr-2" />
+              <Luggage className="h-5 w-5 text-red-600 mr-2" />
               <span className="font-medium">Equipaje adicional</span>
-              <span className="ml-auto font-medium text-emerald-600">{formatPrice(luggagePrice)}</span>
+              <span className="ml-auto font-medium text-red-600">{formatPrice(luggagePrice)}</span>
             </div>
             <p className="text-sm text-gray-500 mt-1">Añade una maleta adicional de hasta 23kg</p>
           </label>
@@ -450,13 +450,13 @@ export default function PagoPage() {
             id="seat"
             checked={selectedServices.seat}
             onChange={() => handleServiceChange("seat")}
-            className="mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+            className="mt-1 h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
           />
           <label htmlFor="seat" className="ml-3 flex-1 cursor-pointer">
             <div className="flex items-center">
-              <Armchair className="h-5 w-5 text-emerald-600 mr-2" />
+              <Armchair className="h-5 w-5 text-red-600 mr-2" />
               <span className="font-medium">Selección de asiento</span>
-              <span className="ml-auto font-medium text-emerald-600">{formatPrice(seatPrice)}</span>
+              <span className="ml-auto font-medium text-red-600">{formatPrice(seatPrice)}</span>
             </div>
             <p className="text-sm text-gray-500 mt-1">Elige tu asiento preferido para un viaje más cómodo</p>
           </label>
@@ -466,7 +466,7 @@ export default function PagoPage() {
       <div className="flex justify-end">
         <button
           onClick={handleNextStep}
-          className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center"
+          className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition flex items-center"
         >
           Continuar al pago
           <ChevronRight className="ml-2 h-5 w-5" />
@@ -482,27 +482,27 @@ export default function PagoPage() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div
-          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "credit" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
+          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "credit" ? "border-red-500 bg-red-50" : "border-gray-200 hover:border-red-200"}`}
           onClick={() => setPaymentMethod("credit")}
         >
           <div className="flex justify-center mb-2">
-            <CreditCard className="h-6 w-6 text-emerald-600" />
+            <CreditCard className="h-6 w-6 text-red-600" />
           </div>
           <div className="font-medium">Tarjeta de crédito</div>
         </div>
 
         <div
-          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "debit" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
+          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "debit" ? "border-red-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
           onClick={() => setPaymentMethod("debit")}
         >
           <div className="flex justify-center mb-2">
-            <CreditCard className="h-6 w-6 text-emerald-600" />
+            <CreditCard className="h-6 w-6 text-red-600" />
           </div>
           <div className="font-medium">Tarjeta débito</div>
         </div>
 
         <div
-          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "paypal" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
+          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "paypal" ? "border-red-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
           onClick={() => setPaymentMethod("paypal")}
         >
           <div className="flex justify-center mb-2">
@@ -514,7 +514,7 @@ export default function PagoPage() {
         </div>
 
         <div
-          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "pse" ? "border-emerald-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
+          className={`border rounded-lg p-4 text-center cursor-pointer transition ${paymentMethod === "pse" ? "border-red-500 bg-emerald-50" : "border-gray-200 hover:border-emerald-200"}`}
           onClick={() => setPaymentMethod("pse")}
         >
           <div className="flex justify-center mb-2">
@@ -629,7 +629,7 @@ export default function PagoPage() {
               name="saveCard"
               checked={paymentData.saveCard}
               onChange={handlePaymentChange}
-              className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+              className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
             />
             <label htmlFor="saveCard" className="ml-2 block text-sm text-gray-700">
               Guardar esta tarjeta para futuras compras
@@ -696,7 +696,7 @@ export default function PagoPage() {
             setCurrentStep("passenger")
             window.scrollTo(0, 0)
           }}
-          className="border border-emerald-600 text-emerald-600 px-2 py-2  md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
+          className="border border-red-600 text-red-600 px-2 py-2  md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
         >
           <ArrowLeft className="mr-2 h-5 w-5" />
           Volver
@@ -704,7 +704,7 @@ export default function PagoPage() {
 
         <button
           onClick={handleNextStep}
-          className="bg-emerald-600 text-white px-2 py-1 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center"
+          className="bg-red-600 text-white px-2 py-1 md:px-6 md:py-3 rounded-lg font-medium hover:bg-red-700 transition flex items-center"
         >
           Revisar y confirmar
           <ChevronRight className="ml-2 h-5 w-5" />
@@ -718,14 +718,14 @@ export default function PagoPage() {
     <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
       <h2 className="text-xl font-bold mb-6">Confirmar y pagar</h2>
 
-      <div className="border-b pb-4 mb-4 border-emerald-500">
+      <div className="border-b pb-4 mb-4 border-red-500">
         <h3 className="font-bold text-lg mb-2">Resumen del vuelo</h3>
         <div className="flex flex-col md:flex-row justify-between">
           <div className="mb-4 md:mb-0">
             <div className="flex items-center mb-2">
               <Plane className="w-5 h-5 text-gray-500 mr-2" />
               <span className="font-medium">Vuelo {flightId}</span>
-              <span className="ml-2 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-xs font-medium">
+              <span className="ml-2 bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-xs font-medium">
                 {direct ? "Directo" : "1 Escala"}
               </span>
             </div>
@@ -761,7 +761,7 @@ export default function PagoPage() {
         </div>
       </div>
 
-      <div className="border-b pb-4 mb-4 border-emerald-500">
+      <div className="border-b pb-4 mb-4 border-red-500">
         <h3 className="font-bold text-lg mb-2">Información del pasajero</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <div>
@@ -788,7 +788,7 @@ export default function PagoPage() {
         </div>
       </div>
 
-      <div className="border-b pb-4 mb-4 border-emerald-500" >
+      <div className="border-b pb-4 mb-4 border-red-500" >
         <h3 className="font-bold text-lg mb-2">Método de pago</h3>
         <div className="flex items-center">
           {paymentMethod === "credit" && (
@@ -862,9 +862,9 @@ export default function PagoPage() {
             </div>
           )}
 
-          <div className="border-t pt-2 mt-2 flex justify-between font-bold border-emerald-500">
+          <div className="border-t pt-2 mt-2 flex justify-between font-bold border-red-500">
             <span>Total</span>
-            <span className="text-emerald-600">{formatPrice(grandTotal)}</span>
+            <span className="text-red-600">{formatPrice(grandTotal)}</span>
           </div>
         </div>
       </div>
@@ -874,11 +874,11 @@ export default function PagoPage() {
           <Info className="w-5 h-5 text-gray-500 mr-2 mt-0.5" />
           <p className="text-sm text-gray-600">
             Al hacer clic en "Confirmar y pagar", aceptas nuestros{" "}
-            <a href="#" className="text-emerald-600 hover:underline">
+            <a href="#" className="text-red-600 hover:underline">
               términos y condiciones
             </a>{" "}
             y{" "}
-            <a href="#" className="text-emerald-600 hover:underline">
+            <a href="#" className="text-red-600 hover:underline">
               política de privacidad
             </a>
             .
@@ -892,7 +892,7 @@ export default function PagoPage() {
             setCurrentStep("payment")
             window.scrollTo(0, 0)
           }}
-          className="border border-emerald-600 text-emerald-600 px-2 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
+          className="border border-red-600 text-red-600 px-2 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-50 transition flex items-center"
         >
           <ArrowLeft className="mr-2 h-5 w-5" />
           Volver
@@ -901,7 +901,7 @@ export default function PagoPage() {
         <button
           onClick={handleSubmitPayment}
           disabled={loading}
-          className={`bg-emerald-600 text-white px-2 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
+          className={`bg-red-600 text-white px-2 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-red-700 transition flex items-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
         >
           {loading ? (
             <>
@@ -1006,7 +1006,7 @@ export default function PagoPage() {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep === "passenger" ? "bg-emerald-600 text-white" : currentStep === "payment" || currentStep === "confirmation" ? "bg-emerald-600 text-white" : "bg-gray-200 text-gray-600"}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep === "passenger" ? "bg-red-600 text-white" : currentStep === "payment" || currentStep === "confirmation" ? "bg-red-600 text-white" : "bg-gray-200 text-gray-600"}`}
                   >
                     <User className="w-5 h-5" />
                   </div>
@@ -1014,12 +1014,12 @@ export default function PagoPage() {
                 </div>
 
                 <div
-                  className={`flex-1 h-1 mx-2 ${currentStep === "payment" || currentStep === "confirmation" ? "bg-emerald-600" : "bg-gray-200"}`}
+                  className={`flex-1 h-1 mx-2 ${currentStep === "payment" || currentStep === "confirmation" ? "bg-red-600" : "bg-gray-200"}`}
                 ></div>
 
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep === "payment" ? "bg-emerald-600 text-white" : currentStep === "confirmation" ? "bg-emerald-600 text-white" : "bg-gray-200 text-gray-600"}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep === "payment" ? "bg-red-600 text-white" : currentStep === "confirmation" ? "bg-red-600 text-white" : "bg-gray-200 text-gray-600"}`}
                   >
                     <CreditCard className="w-5 h-5" />
                   </div>
@@ -1027,12 +1027,12 @@ export default function PagoPage() {
                 </div>
 
                 <div
-                  className={`flex-1 h-1 mx-2 ${currentStep === "confirmation" ? "bg-emerald-600" : "bg-gray-200"}`}
+                  className={`flex-1 h-1 mx-2 ${currentStep === "confirmation" ? "bg-red-600" : "bg-gray-200"}`}
                 ></div>
 
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep === "confirmation" ? "bg-emerald-600 text-white" : "bg-gray-200 text-gray-600"}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep === "confirmation" ? "bg-red-600 text-white" : "bg-gray-200 text-gray-600"}`}
                   >
                     <CheckCircle className="w-5 h-5" />
                   </div>
@@ -1112,7 +1112,7 @@ export default function PagoPage() {
                   <div className="border-t pt-4">
                     <div className="flex justify-between font-bold">
                       <span>Total</span>
-                      <span className="text-emerald-600">{formatPrice(grandTotal)}</span>
+                      <span className="text-red-600">{formatPrice(grandTotal)}</span>
                     </div>
                   </div>
                 </div>

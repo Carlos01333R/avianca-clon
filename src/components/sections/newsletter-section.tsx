@@ -15,7 +15,7 @@ export function NewsletterSection() {
   }
 
   return (
-    <section className="py-16 bg-emerald-600 text-white">
+    <section className="py-16 bg-red-500 text-white mt-20">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Mantente informado</h2>
@@ -24,7 +24,7 @@ export function NewsletterSection() {
           </p>
 
           {submitted ? (
-            <div className="bg-white text-emerald-600 rounded-lg p-6 shadow-lg">
+            <div className="text-white rounded-lg p-6 shadow-lg">
               <h3 className="text-xl font-bold mb-2">¡Gracias por suscribirte!</h3>
               <p>Pronto recibirás nuestras mejores ofertas en tu correo electrónico.</p>
             </div>
@@ -40,7 +40,7 @@ export function NewsletterSection() {
               />
               <button
                 type="submit"
-                className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition"
+                className="bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition"
               >
                 Suscribirme
               </button>

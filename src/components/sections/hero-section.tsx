@@ -22,7 +22,7 @@ export function HeroSection() {
           <div className="flex space-x-4">
             <a
               href="#promotions"
-              className="bg-emerald-500 text-white px-6 py-3 rounded-full font-medium hover:bg-emerald-300 transition"
+              className="bg-red-500 text-white px-6 py-3 rounded-full font-medium hover:bg-red-300 transition"
             >
               Ver ofertas
             </a>

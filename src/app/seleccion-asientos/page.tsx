@@ -11,8 +11,8 @@ export default function SeleccionAsientosPage() {
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="bg-white rounded-lg shadow-sm p-8">
           <div className="flex items-center justify-center mb-8">
-            <div className="bg-emerald-100 rounded-full p-4">
-              <Armchair className="w-12 h-12 text-emerald-600" />
+            <div className="bg-red-100 rounded-full p-4">
+              <Armchair className="w-12 h-12 text-red-600" />
             </div>
           </div>
 
@@ -25,21 +25,21 @@ export default function SeleccionAsientosPage() {
             <div className="bg-gray-50 rounded-lg p-6 text-center">
               <h3 className="text-xl font-bold mb-4">Asiento estándar</h3>
               <p className="text-gray-600 mb-4">Asientos en la cabina principal con espacio estándar.</p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">Desde $25.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">Desde $25.000</div>
               <div className="text-gray-500">por trayecto</div>
             </div>
 
             <div className="bg-gray-50 rounded-lg p-6 text-center">
               <h3 className="text-xl font-bold mb-4">Asiento con más espacio</h3>
               <p className="text-gray-600 mb-4">Mayor espacio para las piernas en filas específicas.</p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">Desde $45.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">Desde $45.000</div>
               <div className="text-gray-500">por trayecto</div>
             </div>
 
             <div className="bg-gray-50 rounded-lg p-6 text-center">
               <h3 className="text-xl font-bold mb-4">Asiento preferencial</h3>
               <p className="text-gray-600 mb-4">Ubicados en la parte delantera para un desembarque más rápido.</p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">Desde $60.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">Desde $60.000</div>
               <div className="text-gray-500">por trayecto</div>
             </div>
           </div>
@@ -57,7 +57,7 @@ export default function SeleccionAsientosPage() {
               </div>
               <div className="flex justify-center mt-6 space-x-8">
                 <div className="flex items-center">
-                  <div className="w-4 h-4 bg-emerald-500 rounded-sm mr-2"></div>
+                  <div className="w-4 h-4 bg-red-500 rounded-sm mr-2"></div>
                   <span className="text-sm">Disponible</span>
                 </div>
                 <div className="flex items-center">
@@ -65,7 +65,7 @@ export default function SeleccionAsientosPage() {
                   <span className="text-sm">Ocupado</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-4 h-4 bg-emerald-200 rounded-sm mr-2"></div>
+                  <div className="w-4 h-4 bg-red-200 rounded-sm mr-2"></div>
                   <span className="text-sm">Seleccionado</span>
                 </div>
               </div>
@@ -76,10 +76,10 @@ export default function SeleccionAsientosPage() {
             <h2 className="text-2xl font-bold mb-6">Beneficios de seleccionar tu asiento</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-start">
-                <div className="bg-emerald-100 rounded-full p-2 mr-3">
+                <div className="bg-red-100 rounded-full p-2 mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-emerald-600"
+                    className="h-5 w-5 text-red-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -93,10 +93,10 @@ export default function SeleccionAsientosPage() {
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-emerald-100 rounded-full p-2 mr-3">
+                <div className="bg-red-100 rounded-full p-2 mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-emerald-600"
+                    className="h-5 w-5 text-red-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -110,10 +110,10 @@ export default function SeleccionAsientosPage() {
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-emerald-100 rounded-full p-2 mr-3">
+                <div className="bg-red-100 rounded-full p-2 mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-emerald-600"
+                    className="h-5 w-5 text-red-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -127,10 +127,10 @@ export default function SeleccionAsientosPage() {
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="bg-emerald-100 rounded-full p-2 mr-3">
+                <div className="bg-red-100 rounded-full p-2 mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-emerald-600"
+                    className="h-5 w-5 text-red-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -149,7 +149,7 @@ export default function SeleccionAsientosPage() {
           <div className="text-center">
             <Link
               href="/"
-              className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 transition inline-block"
+              className="bg-red-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-700 transition inline-block"
             >
               Seleccionar asiento
             </Link>

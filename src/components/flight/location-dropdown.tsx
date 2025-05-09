@@ -59,7 +59,7 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
         <input
           ref={inputRef}
           type="text"
-          className="w-full p-2 border border-emerald-500 rounded focus:border-emerald-500 outline-none"
+          className="w-full p-2 border border-gray-200 rounded focus:border-gray-300 outline-none"
           placeholder={`Buscar ciudad o aeropuerto`}
           value={searchTerm}
           required
@@ -67,19 +67,19 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
         />
         <div className="mt-2 flex space-x-2">
           <button
-            className={`px-3 py-1 rounded-full text-xs font-medium ${searchTerm === "" ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium ${searchTerm === "" ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
             onClick={() => setSearchTerm("")}
           >
             Todos
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-xs font-medium ${searchTerm === "colombia" ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium ${searchTerm === "colombia" ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
             onClick={() => setSearchTerm("colombia")}
           >
             Colombia
           </button>
           <button
-            className={`px-3 py-1 rounded-full text-xs font-medium ${searchTerm === "internacional" ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium ${searchTerm === "internacional" ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
             onClick={() => setSearchTerm("internacional")}
           >
             Internacional

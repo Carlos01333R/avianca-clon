@@ -67,7 +67,7 @@ export default function EstadoVueloPage() {
                     id="flightNumber"
                     value={flightNumber}
                     onChange={(e) => setFlightNumber(e.target.value.toUpperCase())}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
                     placeholder="Ej: AV123"
                   />
                 </div>
@@ -81,14 +81,14 @@ export default function EstadoVueloPage() {
                     id="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className={`w-full bg-emerald-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center justify-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
+                  className={`w-full bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition flex items-center justify-center ${loading ? "opacity-70 cursor-not-allowed" : ""}`}
                 >
                   {loading ? (
                     <>
@@ -138,7 +138,7 @@ export default function EstadoVueloPage() {
                       })}
                     </p>
                   </div>
-                  <div className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="bg-emerald-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
                     En horario
                   </div>
                 </div>
@@ -148,7 +148,7 @@ export default function EstadoVueloPage() {
                     <div className="text-sm text-gray-500">Origen</div>
                     <div className="text-xl font-bold">BOG</div>
                     <div className="text-gray-700">Bogotá</div>
-                    <div className="text-emerald-600 font-medium">10:30 AM</div>
+                    <div className="text-red-600 font-medium">10:30 AM</div>
                   </div>
 
                   <div className="flex flex-col items-center mb-4 md:mb-0">
@@ -166,7 +166,7 @@ export default function EstadoVueloPage() {
                     <div className="text-sm text-gray-500">Destino</div>
                     <div className="text-xl font-bold">MIA</div>
                     <div className="text-gray-700">Miami</div>
-                    <div className="text-emerald-600 font-medium">2:15 PM</div>
+                    <div className="text-red-600 font-medium">2:15 PM</div>
                   </div>
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function EstadoVueloPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Estado:</span>
-                    <span className="font-medium text-emerald-600">En horario</span>
+                    <span className="font-medium text-red-600">En horario</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Aeronave:</span>
@@ -202,7 +202,7 @@ export default function EstadoVueloPage() {
               </div>
 
               <div className="text-center">
-                <button className="bg-emerald-600 text-white py-3 px-8 rounded-lg font-medium hover:bg-emerald-700 transition">
+                <button className="bg-red-600 text-white py-3 px-8 rounded-lg font-medium hover:bg-red-700 transition">
                   Recibir actualizaciones
                 </button>
               </div>

@@ -119,19 +119,19 @@ export default function MisViajesPage() {
           {/* Tabs */}
           <div className="flex border-b mb-8">
             <button
-              className={`pb-2 px-4 font-medium ${activeTab === "upcoming" ? "border-b-2 border-emerald-500 text-emerald-600" : "text-gray-500"}`}
+              className={`pb-2 px-4 font-medium ${activeTab === "upcoming" ? "border-b-2 border-red-500 text-red-600" : "text-gray-500"}`}
               onClick={() => setActiveTab("upcoming")}
             >
               Próximos
             </button>
             <button
-              className={`pb-2 px-4 font-medium ${activeTab === "completed" ? "border-b-2 border-emerald-500 text-emerald-600" : "text-gray-500"}`}
+              className={`pb-2 px-4 font-medium ${activeTab === "completed" ? "border-b-2 border-red-500 text-red-600" : "text-gray-500"}`}
               onClick={() => setActiveTab("completed")}
             >
               Completados
             </button>
             <button
-              className={`pb-2 px-4 font-medium ${activeTab === "all" ? "border-b-2 border-emerald-500 text-emerald-600" : "text-gray-500"}`}
+              className={`pb-2 px-4 font-medium ${activeTab === "all" ? "border-b-2 border-red-500 text-red-600" : "text-gray-500"}`}
               onClick={() => setActiveTab("all")}
             >
               Todos
@@ -141,7 +141,7 @@ export default function MisViajesPage() {
           {loading ? (
             <div className="flex justify-center items-center py-12">
               <div className="animate-pulse flex flex-col items-center">
-                <Plane className="w-12 h-12 text-emerald-500 mb-4" />
+                <Plane className="w-12 h-12 text-red-500 mb-4" />
                 <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
                 <div className="h-4 bg-gray-200 rounded w-24"></div>
               </div>
@@ -169,7 +169,7 @@ export default function MisViajesPage() {
                           </span>
                         )}
                         {trip.status === "upcoming" && (
-                          <span className="ml-2 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-xs font-medium">
+                          <span className="ml-2 bg-emerald-100 text-red-700 px-2 py-0.5 rounded-full text-xs font-medium">
                             Próximo
                           </span>
                         )}
@@ -198,12 +198,12 @@ export default function MisViajesPage() {
                       <>
                         <Link
                           href="/check-in"
-                          className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition"
+                          className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition"
                         >
                           Check-in
                         </Link>
                         <button
-                          className="bg-white border border-emerald-600 text-emerald-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-50 transition"
+                          className="bg-white border border-red-600 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-50 transition"
                           onClick={() => router.push("/seleccion-asientos")}
                         >
                           Cambiar vuelo
@@ -257,7 +257,7 @@ export default function MisViajesPage() {
               </p>
               <Link
                 href="/"
-                className="bg-emerald-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-emerald-700 transition inline-block"
+                className="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition inline-block"
               >
                 Buscar vuelos
               </Link>

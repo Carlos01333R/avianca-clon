@@ -9,8 +9,8 @@ export default function SeguroViajePage() {
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <div className="bg-white rounded-lg shadow-sm p-8">
           <div className="flex items-center justify-center mb-8">
-            <div className="bg-emerald-100 rounded-full p-4">
-              <Shield className="w-12 h-12 text-emerald-600" />
+            <div className="bg-red-100 rounded-full p-4">
+              <Shield className="w-12 h-12 text-red-600" />
             </div>
           </div>
 
@@ -25,19 +25,19 @@ export default function SeguroViajePage() {
               <p className="text-gray-600 mb-4">
                 Asistencia médica por enfermedad o accidente, pérdida de equipaje y retrasos.
               </p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">$35.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">$35.000</div>
               <div className="text-gray-500">por persona</div>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 text-center border-2 border-emerald-500 relative">
-              <div className="absolute top-0 right-0 bg-emerald-500 text-white px-3 py-1 text-xs font-bold rounded-bl-lg">
+            <div className="bg-gray-50 rounded-lg p-6 text-center border-2 border-red-500 relative">
+              <div className="absolute top-0 right-0 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-bl-lg">
                 RECOMENDADO
               </div>
               <h3 className="text-xl font-bold mb-4">Cobertura estándar</h3>
               <p className="text-gray-600 mb-4">
                 Todo lo de la cobertura básica más cancelación de viaje y asistencia 24/7.
               </p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">$65.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">$65.000</div>
               <div className="text-gray-500">por persona</div>
             </div>
 
@@ -46,7 +46,7 @@ export default function SeguroViajePage() {
               <p className="text-gray-600 mb-4">
                 Cobertura completa con mayores límites y protección para deportes extremos.
               </p>
-              <div className="text-emerald-600 font-bold text-2xl mb-2">$95.000</div>
+              <div className="text-red-600 font-bold text-2xl mb-2">$95.000</div>
               <div className="text-gray-500">por persona</div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function SeguroViajePage() {
             </div>
           </div>
 
-          <div className="bg-emerald-50 rounded-lg p-6 mb-12">
+          <div className="bg-red-50 rounded-lg p-6 mb-12">
             <div className="flex flex-col md:flex-row items-center">
               <div className="md:w-2/3 mb-6 md:mb-0 md:pr-6">
                 <h3 className="text-xl font-bold mb-2">¿Por qué contratar un seguro de viaje?</h3>
@@ -103,7 +103,7 @@ export default function SeguroViajePage() {
               </div>
               <div className="md:w-1/3 flex justify-center">
                 <div className="bg-white rounded-full p-6 shadow-md">
-                  <Shield className="w-16 h-16 text-emerald-600" />
+                  <Shield className="w-16 h-16 text-red-600" />
                 </div>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function SeguroViajePage() {
           <div className="text-center">
             <Link
               href="/"
-              className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 transition inline-block"
+              className="bg-red-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-700 transition inline-block"
             >
               Contratar seguro
             </Link>
