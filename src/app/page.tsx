@@ -55,7 +55,7 @@ export default function Home() {
       <HeroSection />
 
       {/* Sticky Search Form Section */}
-         <section className={`md:sticky top-15 z-50 -mt-52 transition-all ${hasScrolled ? 'bg-white' : 'bg-transparent'}`}>
+        <section className={`md:sticky top-15 z-50 -mt-52 transition-all ${hasScrolled ? 'md:bg-white' : 'md:bg-transparent'}`}>
       <div className="container mx-auto max-w-7xl px-4 ">
         <SearchForm />
       </div>
