@@ -1,3 +1,5 @@
+import { ArrowRight } from "lucide-react"
+
 export function PreparateViajar() {
     const itemsCards = [
         {
@@ -26,23 +28,26 @@ export function PreparateViajar() {
             
             <div className="md:px-6">
                 {/* Contenedor para móvil (scroll horizontal) y desktop (grid) */}
-                <div className="md:grid md:grid-cols-3 md:gap-6 flex overflow-x-auto pb-4 gap-2 scroll-smooth">
+                <div className="md:grid md:grid-cols-3 md:gap-6 flex overflow-x-auto pb-4 gap-4 scroll-smooth snap-x snap-mandatory">
                     {itemsCards.map((item, index) => (
                         <a
                             href={item.link}
                             key={index}
-                            className="flex bg-white items-start p-6 hover:bg-gray-50 rounded-lg transition-colors shadow-lg min-w-[85%] md:min-w-0 flex-shrink-0"
+                            className="flex flex-row  bg-white items-start hover:bg-gray-50 rounded-lg transition-colors shadow-lg hover:shadow-xl w-[calc(95vw-2rem)] sm:w-[calc(50vw-2rem)]  md:w-full flex-shrink-0 snap-start"
                         >
-                            <div className="mr-4">
+                            <div className="flex items-center justify-center p-4 h-full">
                                 <img 
                                     src={item.icon} 
                                     alt="icon" 
-                                    className="w-20 h-20 object-contain" 
+                                    className="w-20 h-20 md:w-full object-contain rounded-lg " 
                                 />
                             </div>
-                            <div className="flex-1">
-                                <p className="text-lg font-bold mb-2">{item.title}</p>
-                                <p className="text-sm text-gray-600">{item.description}</p>
+                            <div className="flex-1 p-4 md:p-4 w-full">
+                                <p className="text-xl font-bold mb-2 md:text-center">{item.title}</p>
+                                <p className="text-gray-800 md:text-center">{item.description}</p>
+                            </div>
+                            <div className="md:hidden flex justify-center items-center h-full mr-4">
+                                <ArrowRight />
                             </div>
                         </a>
                     ))}

@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
       "es.investinbogota.org",
       "i0.wp.com/passporterapp.com",
       "probarranquilla.org",
-      "elpilon.com.co"
+      "elpilon.com.co",
+      "static.avianca.com"
     ],
   },
 

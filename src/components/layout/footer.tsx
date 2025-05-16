@@ -1,71 +1,109 @@
 import type React from "react"
 import { SiteLogo } from "@/components/ui/site-logo"
 import { Facebook, Twitter, Instagram, Youtube, Linkedin } from "lucide-react"
-import Link from "next/link"
-
+import Image from "next/image"
 export function Footer() {
+
+ 
   return (
-    <footer className="bg-white text-white pt-16 pb-8">
+    <footer className="bg-[#1B1B1B] text-white pt-16 pb-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <div>
-            <SiteLogo className="h-8 mb-6" />
-            <p className="text-black mb-6 mt-2">Conectamos personas y destinos con las mejores experiencias de viaje.</p>
+        <section className="flex justify-between items-center mb-5">
+        <Image 
+        src="/logo-footer.svg" 
+        width={100}
+        height={100}
+        alt="airplane"
+        className="w-[150px] h-[150px]" // Tailwind CSS
+        // style={{ width: 100, height: 100 }} // Estilos en línea alternativos
+      />
+          <div className="flex flex-col items-center mb-5">
+
+            <p className="mb-5">¡Siguenos!</p>
             <div className="flex space-x-4">
-              <SocialIcon icon={<Facebook className="w-5 h-5" />} />
-              <SocialIcon icon={<Twitter className="w-5 h-5" />} />
-              <SocialIcon icon={<Instagram className="w-5 h-5" />} />
-              <SocialIcon icon={<Youtube className="w-5 h-5" />} />
-              <SocialIcon icon={<Linkedin className="w-5 h-5" />} />
+              <a href="#" className="bg-white h-7 w-7 rounded-full flex items-center justify-center hover:bg-gray-100">
+                {<Facebook className="w-5 h-5 text-black" />} 
+              </a>
+              <a href="#" className="bg-white h-7 w-7 rounded-full flex items-center justify-center hover:bg-gray-100">
+                {<Twitter className="w-5 h-5 text-black" />} 
+              </a>
+              <a href="#" className="bg-white h-7 w-7 rounded-full flex items-center justify-center hover:bg-gray-100">
+                {<Instagram className="w-5 h-5 text-black" />} 
+              </a>
+              <a href="#" className="bg-white h-7 w-7 rounded-full flex items-center justify-center hover:bg-gray-100">
+                {<Youtube className="w-5 h-5 text-black" />} 
+              </a>
+              <a href="#" className="bg-white h-7 w-7 rounded-full flex items-center justify-center hover:bg-gray-100">
+                {<Linkedin className="w-5 h-5 text-black" />} 
+              </a>
+          
+           
             </div>
           </div>
+        </section>
 
-          <div className="">
-            <h3 className="text-lg font-bold mb-4 text-black">Información</h3>
-            <ul className="space-y-3 text-white flex flex-col">
-            
-            <a href="#" className="text-black hover:text-red-300 transition-colors">Sobre nosotros</a>
-            <a href="#" className="text-black hover:text-red-300 transition-colors">Destinos</a>
-            <a href="#" className="text-black hover:text-red-300 transition-colors">Flota</a>
-            <a href="#" className="text-black hover:text-red-300 transition-colors">Alianzas</a>
-            <a href="#" className="text-black hover:text-red-300transition-colors">Sostenibilidad</a>
-          
-              
-             
-            </ul>
-          </div>
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+  {/* Columna 1: Descubre y compra */}
+  <div className="">
+    <h3 className="text-lg font-bold mb-4">Descubre y compra</h3>
+    <ul className="space-y-3 text-white flex flex-col">
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Vuelos baratos</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Reservas de hoteles ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Alquiler de autos ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Tours y excursiones ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Asistencia en viaje</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">avianca connect ☑</a>
+    </ul>
+  </div>
 
-          <div>
-            <h3 className="text-lg font-bold mb-4  text-black">Servicios</h3>
-            <ul className="space-y-3 text-white flex flex-col">
-              <a href="/check-in" className="text-black hover:text-red-300 transition-colors">Check-in online</a>
-              <a href="/estado-vuelo" className="text-black hover:text-red-300 transition-colors">Estado del vuelo</a>
-              <a href="/equipaje-adicional" className="text-black hover:text-red-300 transition-colors">Equipaje adicional</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors">Asistencia especial</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors">Programa de viajero frecuente</a>
-            
-            </ul>
-          </div>
+  {/* Columna 2: Sobre nosotros */}
+  <div>
+    <h3 className="text-lg font-bold mb-4">Sobre nosotros</h3>
+    <ul className="space-y-3 text-white flex flex-col">
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Somos avianca</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Trabaja con nosotros ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Noticias corporativas</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Alianzas y beneficios</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Sostenibilidad</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Plan de accesibilidad</a>
+    </ul>
+  </div>
 
-          <div>
-            <h3 className="text-lg font-bold mb-4  text-black">Contacto</h3>
-            <ul className="space-y-3 flex flex-col text-white">
-              <a href="#" className="text-black hover:text-red-300 transition-colors">Atención al cliente: 01 8000 123 456</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors">Bogotá: (601) 123 4567</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors">Email: info@aerolinea.com</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors">Horario: Lunes a Domingo, 24 horas</a>
-          
-            </ul>
-          </div>
-        </div>
+  {/* Columna 3: Nuestros portales */}
+  <div>
+    <h3 className="text-lg font-bold mb-4">Nuestros portales</h3>
+    <ul className="space-y-3 text-white flex flex-col">
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Programa lifemiles ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">avianca empresas ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">aviancadirect</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">avianca trade ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">avianca cargo ☑</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Relación con inversionistas ☑</a>
+    </ul>
+  </div>
 
-        <div className="border-t border-red-300 pt-8 mt-8">
+  {/* Columna 4: Enlaces rápidos */}
+  <div>
+    <h3 className="text-lg font-bold mb-4">Enlaces rápidos</h3>
+    <ul className="space-y-3 text-white flex flex-col">
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Información legal</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Política de privacidad</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Contrato de transporte</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Artículos restringidos</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Plan de contingencia</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Contáctanos</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Factura electrónica</a>
+      <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all">Cambios y reembolsos</a>
+    </ul>
+  </div>
+</div>
+        <div className="border-t border-gray-300 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-black mb-4 md:mb-0 text-xs">© 2025 Aerolínea. Todos los derechos reservados.</div>
+            <div className=" mb-4 md:mb-0 text-xs">© 2025 Aerolínea. Todos los derechos reservados.</div>
             <div className="flex space-x-6">
-              <a href="#" className="text-black hover:text-red-300 transition-colors text-xs"> Términos y condiciones</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors text-xs"> Política de privacidad</a>
-              <a href="#" className="text-black hover:text-red-300 transition-colors text-xs"> Cookies</a>
+              <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all"> Términos y condiciones</a>
+              <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all"> Política de privacidad</a>
+              <a href="#" className="hover:font-black hover:text-lg hover:underline transition-all"> Cookies</a>
             </div>
           </div>
         </div>

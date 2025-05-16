@@ -9,7 +9,7 @@ import { AuthProvider } from "@/hooks/use-auth"
 const inter = Inter({ subsets: ["latin"], })
 
 export const metadata: Metadata = {
-  title: "Vuelos - Busca y reserva tu próximo viaje",
+  title: "Avianca - Encuentra tiquetes y vuelos baratos ",
   description: "Encuentra los mejores precios en vuelos a cualquier destino",
 }
 
@@ -20,6 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+
       <body className="font-display">
         <AuthProvider>
           <MainNavigation />

@@ -7,7 +7,8 @@ import { PromotionsSectionOrigin } from "@/components/sections/Promosiones"
 import { OffersSection } from "@/components/sections/offers-section"
 import { PreparateViajar } from "@/components/sections/PreparateViajar"
 import { LifemilesSection } from "@/components/sections/lifemiles-section"
-
+import {InformacionInteres} from '@/components/sections/InformacionInteres';
+import { Experiencia } from '@/components/sections/Experencia';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
    const [hasScrolled, setHasScrolled] = useState(false)
@@ -69,6 +70,8 @@ export default function Home() {
         <OffersSection />
         <PreparateViajar />
         <LifemilesSection />
+        <InformacionInteres />
+        <Experiencia />
       </div>
     </main>
   )
