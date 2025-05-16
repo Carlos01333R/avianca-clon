@@ -300,7 +300,7 @@ export default function SearchForm() {
                       value={returnDate}
                       onChange={setReturnDate}
                       minDate={departureDate}
-                      disabled={tripType === "oneWay"}
+                   
                       isMobileView={true}
                     />
                   </div>
