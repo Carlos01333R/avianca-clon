@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import type { Location } from "@/types/flight"
+import Image from "next/image"
 
 interface LocationDropdownProps {
   locations: Location[]
@@ -10,9 +11,18 @@ interface LocationDropdownProps {
   label: string
   isOpen: boolean
   onClose: () => void
+  isMobileModal?: boolean
 }
 
-export function LocationDropdown({ locations, onSelect, excludeCode, label, isOpen, onClose }: LocationDropdownProps) {
+export function LocationDropdown({
+  locations,
+  onSelect,
+  excludeCode,
+  label,
+  isOpen,
+  onClose,
+  isMobileModal = false,
+}: LocationDropdownProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -25,7 +35,7 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && !isMobileModal) {
         onClose()
       }
     }
@@ -37,7 +47,7 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, isMobileModal])
 
   const filteredLocations = locations
     .filter((loc) => loc.code !== excludeCode)
@@ -53,19 +63,40 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
   return (
     <div
       ref={dropdownRef}
-      className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 overflow-y-auto"
+      className={`${isMobileModal ? "" : "absolute z-20 mt-1"} w-full bg-white md:border md:border-gray-300 md:rounded-xl md:shadow-lg max-h-full md:max-h-80 overflow-y-auto `}
     >
-      <div className="p-2 sticky top-0 bg-gray-50 z-10 ">
+      <div className="p-4 sticky top-0 bg-white z-10 ">
+        <section className="hidden md:flex ">
         <input
           ref={inputRef}
           type="text"
           className="w-full p-2 bg-white border border-gray-100 rounded focus:border-gray-300 outline-none"
           placeholder={`Buscar ciudad o aeropuerto`}
           value={searchTerm}
-          required
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className="mt-2 flex justify-between space-x-2 bg-white py-2 rounded-xl px-4">
+        </section>
+
+        <section className="md:hidden flex items-center w-full border-b-3 border-b-green-500 border border-gray-300 rounded-xl ">
+          <div className="w-[10%] px-2">
+            <Image src="/avion.png" width={35} height={35} alt="airplane"  />
+          </div>
+          <div className="w-[90%] flex flex-col">
+          <p className="ml-1">Destino</p>
+          <input
+            ref={inputRef}
+            type="text"
+            className="w-full focus:border-gray-300 outline-none px-2 mb-1"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          </div>
+        </section>
+       
+      
+      <section className="sticky top-0 bg-white z-10 ">
+
+        <div className="hidden md:flex mt-2  justify-between space-x-2 bg-white py-2 rounded-xl px-4">
 
           <section>
             <p>Filtrar por</p>
@@ -101,9 +132,41 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
           </section>
         
         </div>
+        <div className="md:hidden flex mt-2  justify-between space-x-2 bg-gray-50 py-2 rounded-xl">
+          <section className="w-full bg-white flex space-x-2 px-3 rounded-xl">
+       <div className="flex items-center space-x-2">
+            <button
+          className={`px-3 py-1 rounded-full text-xs font-medium flex items-center justify-center gap-1 h-6 w-6 ${
+            searchTerm === "" 
+              ? "bg-green-500 text-white" 
+              : "bg-white border border-gray-300"
+          }`}
+          onClick={() => setSearchTerm("")}
+        >
+          <span className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-white"></span>
+        </button>
+        <p>Destinos avianca</p>
+            </div>
+          <div className="flex items-center space-x-2 ">
+   <button
+          className={`px-3 py-1 rounded-full text-xs font-medium flex items-center justify-center gap-1 h-6 w-6 ${
+            searchTerm === "internacional" 
+              ? "bg-green-500 text-white" 
+              : "bg-white border border-gray-300"
+          }`}
+          onClick={() => setSearchTerm("internacional")}
+        >
+          <span className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-white"></span>
+        </button>
+          <p>Destinos con aliados</p>
+          </div>
+          </section>
+        </div>
+      </section>
+
       </div>
 
-      <div className="p-2">
+      <div className="p-4 md:p-2">
         <div className="text-xs font-medium text-gray-500 mb-2 px-2">
           {filteredLocations.length} destinos encontrados
         </div>
@@ -116,7 +179,9 @@ export function LocationDropdown({ locations, onSelect, excludeCode, label, isOp
                 className="p-2 hover:bg-gray-100 cursor-pointer rounded flex justify-between items-center border-b border-gray-300"
                 onClick={() => {
                   onSelect(loc)
-                  onClose()
+                  if (!isMobileModal) {
+                    onClose()
+                  }
                 }}
               >
                 <div>

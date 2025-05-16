@@ -13,7 +13,7 @@ interface RadioSelectorProps {
 
 export function RadioSelector({ options, value, onChange }: RadioSelectorProps) {
   return (
-    <div className="flex space-x-4">
+    <div className="flex space-x-4 pl-3">
       {options.map((option) => (
         <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
           <div

@@ -9,9 +9,17 @@ interface DatePickerProps {
   onChange: (date: string) => void
   minDate?: string
   disabled?: boolean
+  isMobileView?: boolean
 }
 
-export function DatePicker({ label, value, onChange, minDate, disabled = false }: DatePickerProps) {
+export function DatePicker({
+  label,
+  value,
+  onChange,
+  minDate,
+  disabled = false,
+  isMobileView = false,
+}: DatePickerProps) {
   const [showCalendar, setShowCalendar] = useState(false)
   const [currentMonth, setCurrentMonth] = useState<Date>(() => {
     return value ? new Date(value) : new Date()
@@ -136,10 +144,54 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
 
   const weekDays = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
 
+  // Si es vista móvil, mostrar siempre el calendario
+  if (isMobileView) {
+    return (
+      <div className="bg-white rounded-lg p-3">
+        <div className="flex justify-between items-center mb-4">
+          <button className="p-1 rounded-full hover:bg-gray-100" onClick={goToPreviousMonth}>
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="font-medium">
+            {currentMonth.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}
+          </div>
+          <button className="p-1 rounded-full hover:bg-gray-100" onClick={goToNextMonth}>
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-7 gap-1">
+          {weekDays.map((day) => (
+            <div key={day} className="text-center text-xs font-medium text-gray-500 py-1">
+              {day}
+            </div>
+          ))}
+
+          {renderCalendarDays().map((day, index) => (
+            <button
+              key={index}
+              className={`
+                w-8 h-8 rounded-full flex items-center justify-center text-sm
+                ${day.isCurrentMonth ? "" : "text-gray-400"}
+                ${day.isToday ? "border border-emerald-500" : ""}
+                ${day.isSelected ? "bg-emerald-500 text-white" : "hover:bg-gray-100"}
+                ${day.isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+              `}
+              onClick={() => !day.isDisabled && handleDateClick(day.date)}
+              disabled={day.isDisabled}
+            >
+              {day.date.getDate()}
+            </button>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="relative" ref={calendarRef}>
       <div
-        className={` cursor-pointer  ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={` rounded-lg p-2 cursor-pointer ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
         onClick={() => !disabled && setShowCalendar(!showCalendar)}
       >
         <div className="text-xs text-gray-500 flex items-center">
@@ -150,7 +202,7 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
       </div>
 
       {showCalendar && (
-        <div className="absolute z-20 mt-1 bg-white  rounded-lg shadow-lg p-3 w-72">
+        <div className="absolute z-20 mt-1 bg-white border rounded-lg shadow-lg p-3 w-72">
           <div className="flex justify-between items-center mb-4">
             <button className="p-1 rounded-full hover:bg-gray-100" onClick={goToPreviousMonth}>
               <ChevronLeft className="w-5 h-5" />
@@ -176,8 +228,8 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
                 className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-sm
                   ${day.isCurrentMonth ? "" : "text-gray-400"}
-                  ${day.isToday ? "border border-black" : ""}
-                  ${day.isSelected ? "bg-black text-white" : "hover:bg-gray-100"}
+                  ${day.isToday ? "border border-emerald-500" : ""}
+                  ${day.isSelected ? "bg-emerald-500 text-white" : "hover:bg-gray-100"}
                   ${day.isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                 `}
                 onClick={() => !day.isDisabled && handleDateClick(day.date)}
