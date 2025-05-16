@@ -139,7 +139,7 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
   return (
     <div className="relative" ref={calendarRef}>
       <div
-        className={`border rounded-lg p-3 cursor-pointer ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={` cursor-pointer  ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
         onClick={() => !disabled && setShowCalendar(!showCalendar)}
       >
         <div className="text-xs text-gray-500 flex items-center">
@@ -150,7 +150,7 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
       </div>
 
       {showCalendar && (
-        <div className="absolute z-20 mt-1 bg-white border rounded-lg shadow-lg p-3 w-72">
+        <div className="absolute z-20 mt-1 bg-white  rounded-lg shadow-lg p-3 w-72">
           <div className="flex justify-between items-center mb-4">
             <button className="p-1 rounded-full hover:bg-gray-100" onClick={goToPreviousMonth}>
               <ChevronLeft className="w-5 h-5" />
@@ -176,8 +176,8 @@ export function DatePicker({ label, value, onChange, minDate, disabled = false }
                 className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-sm
                   ${day.isCurrentMonth ? "" : "text-gray-400"}
-                  ${day.isToday ? "border border-red-500" : ""}
-                  ${day.isSelected ? "bg-red-500 text-white" : "hover:bg-gray-100"}
+                  ${day.isToday ? "border border-black" : ""}
+                  ${day.isSelected ? "bg-black text-white" : "hover:bg-gray-100"}
                   ${day.isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                 `}
                 onClick={() => !day.isDisabled && handleDateClick(day.date)}

@@ -7,10 +7,10 @@ interface SiteLogoProps {
 export function SiteLogo({ className = "" }: SiteLogoProps) {
   return (
     <Image
-      src="/logo.png"
+      src="/logo.svg"
       alt="Logo"
-      width={120}   
-      height={36}
+      width={160}   
+      height={56}
     />
   )
 }

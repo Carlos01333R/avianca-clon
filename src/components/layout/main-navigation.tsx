@@ -1,107 +1,123 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { SiteLogo } from "@/components/ui/site-logo"
-import { Menu, X, User, Globe, Phone, LogOut } from "lucide-react"
+import { Menu, X, User, Globe, Phone, LogOut, CircleDollarSign, TriangleAlert } from "lucide-react"
 import { useAuth } from "@/hooks/use-auth"
 
 export function MainNavigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const { user, logout, isAuthenticated } = useAuth()
+  const [alert, setAlert] = useState(true)
+  const [isSticky, setIsSticky] = useState(false)
+
+  // Efecto para manejar el scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsSticky(true)
+      } else {
+        setIsSticky(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const Reservar = true
+  const Hoteles = true
+  const CheckIn = true
+  const EstadoVuelo = true
+  const MisViajes = true
+
+  const handleAlert = () => {
+    setAlert(!alert)
+  }
 
   return (
     <header className="bg-white shadow-sm">
-      {/* Top Bar */}
-      <div className="bg-gray-100 py-2">
+      {/* Top alert - no sticky */}
+      {alert && (
+        <div className="bg-[#E7F7F1]">
+          <section className="flex justify-between items-center w-full h-full px-4 py-2 text-sm text-gray-700">
+            <TriangleAlert className="text-[#0190A0] w-6 h-6 mr-2" />
+            <p className="text-[#0190A0] text-xs md:font-black md:text-lg">
+              Consulta las nuevas exigencias de Certificado Internacional de Vacunación contra la Fiebre Amarilla para personas viajando hacia Ecuador y Costa Rica.
+            </p>
+            <button className="text-[#0190A0] font-display-bold" onClick={handleAlert}>
+              <X className="w-6 h-6" />
+            </button>
+          </section>
+        </div>
+      )}
+     
+      {/* Top Bar - no sticky */}
+      <div className="bg-[#1B1B1B] py-2">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4 text-sm">
-              <a href="#" className="flex items-center text-gray-600 hover:text-gray-900">
-                <Phone className="w-4 h-4 mr-1" />
-                <span>Atención al cliente</span>
-              </a>
-              <a href="#" className="flex items-center text-gray-600 hover:text-gray-900">
+          <div className="flex justify-end items-center">
+            <div className="flex items-end space-x-4 text-sm text-white font-display">
+              <a href="#" className="flex items-center hover:text-gray-900">
                 <Globe className="w-4 h-4 mr-1" />
-                <span>ES</span>
+                <span>Español</span>
               </a>
-            </div>
-            <div>
-              {isAuthenticated ? (
-                <div className="relative">
-                  <button
-                    className="flex items-center text-gray-600 hover:text-gray-900 text-sm"
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  >
-                    <User className="w-4 h-4 mr-1" />
-                    <span>{user?.name}</span>
-                  </button>
-                  {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                      <Link
-                        href="/mis-viajes"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        Mis viajes
-                      </Link>
-                      <Link
-                        href="/perfil"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        Mi perfil
-                      </Link>
-                      <button
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => {
-                          logout()
-                          setIsUserMenuOpen(false)
-                        }}
-                      >
-                        <div className="flex items-center">
-                          <LogOut className="w-4 h-4 mr-2" />
-                          Cerrar sesión
-                        </div>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link href="/login" className="flex items-center text-gray-600 hover:text-gray-900 text-sm">
-                  <User className="w-4 h-4 mr-1" />
-                  <span>Iniciar sesión</span>
-                </Link>
-              )}
+              <span>|</span>
+              <a href="#" className="flex items-center hover:text-gray-900">
+                <CircleDollarSign className="w-4 h-4 mr-1" />
+                <span>Colombia (COP)</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation */}
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <SiteLogo className="h-8" />
-          </Link>
+      {/* Main Navigation - Sticky */}
+      <div  className={`w-full bg-white z-50 transition-all duration-300 ${
+        isSticky ? 'md:fixed top-0 left-0 right-0 shadow-lg' : 'relative'
+      }`}>
+        <div className="container mx-auto px-6 flex items-center h-[70px]">
+          <div className="w-[20%]">
+            <Link href="/" className="flex items-center">
+              <SiteLogo className="h-8" />
+            </Link>
+          </div>
+          
+          <div className="flex-1 flex h-full w-[70%] justify-end md:justify-normal">
+            {/* Desktop Navigation */}
+            <section className="hidden md:flex flex-1 h-full w-[70%]">
+              <div className={Reservar ? "group flex-1 flex h-full justify-center items-center hover:border-b-4 border-green-500 transition-colors duration-200 cursor-pointer" : ""}>
+                <a href="/" className="">Reservar</a>
+              </div>
+              
+              <div className={Hoteles ? "flex-1 flex h-full justify-center items-center hover:border-b-4 border-red-500 transition-colors duration-200 cursor-pointer" : ""}>
+                <a href="/">Ofertas y destinos</a>
+              </div>
+              
+              <div className={CheckIn ? "flex-1 flex h-full justify-center items-center hover:border-b-4 border-blue-500 transition-colors duration-200 cursor-pointer" : ""}>
+                <a href="/">Tu reserva <span className="text-white bg-blue-500 px-2 rounded-lg">Check-in</span></a>
+              </div>
+              
+              <div className={EstadoVuelo ? "flex-1 flex h-full justify-center items-center hover:border-b-4 border-rose-500 transition-colors duration-200 cursor-pointer" : ""}>
+                <a href="/">Estado del vuelo</a>
+              </div>
+              
+              <div className={MisViajes ? "flex-1 flex h-full justify-center items-center hover:border-b-4 border-orange-500 transition-colors duration-200 cursor-pointer" : ""}>
+                <a href="/">Mis viajes</a>  
+              </div>
+            </section>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <NavItem href="/" label="Vuelos" />
-            <NavItem href="https://sp.booking.com/dealspage.html?aid=2434507&label=hotels_shortcut" label="Hoteles" />
-            
-            <NavItem href="/check-in" label="Check-in" />
-            <NavItem href="/estado-vuelo" label="Estado del vuelo" />
-            <NavItem href="/mis-viajes" label="Mis viajes" />
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button className="md:hidden text-gray-600" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {/* Mobile Menu Button */}
+            <button className="md:hidden text-gray-600" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Espacio para compensar cuando el header se hace sticky */}
+      {isSticky && <div className="h-[70px]"></div>}
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
@@ -119,14 +135,6 @@ export function MainNavigation() {
         </div>
       )}
     </header>
-  )
-}
-
-function NavItem({ href, label }: { href: string; label: string }) {
-  return (
-    <Link href={href} className="text-gray-600 hover:text-gray-900 font-medium">
-      {label}
-    </Link>
   )
 }
 

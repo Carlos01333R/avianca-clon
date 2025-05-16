@@ -10,7 +10,7 @@ export function PassengersDropdown({ value, onChange, onClose }: PassengersDropd
   return (
     <div className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg">
       <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col items-center justify-between mb-4">
           <span className="font-medium">Pasajeros</span>
           <div className="flex items-center space-x-3">
             <button
@@ -28,7 +28,7 @@ export function PassengersDropdown({ value, onChange, onClose }: PassengersDropd
             </button>
           </div>
         </div>
-        <button className="w-full py-2 bg-emerald-500 text-white rounded-lg" onClick={onClose}>
+        <button className="w-full py-2 bg-black text-white rounded-lg" onClick={onClose}>
           Aplicar
         </button>
       </div>

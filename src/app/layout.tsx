@@ -6,7 +6,7 @@ import { MainNavigation } from "@/components/layout/main-navigation"
 import { Footer } from "@/components/layout/footer"
 import { AuthProvider } from "@/hooks/use-auth"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], })
 
 export const metadata: Metadata = {
   title: "Vuelos - Busca y reserva tu próximo viaje",
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={inter.className}>
+      <body className="font-display">
         <AuthProvider>
           <MainNavigation />
           {children}

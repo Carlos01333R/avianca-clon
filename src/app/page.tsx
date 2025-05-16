@@ -1,33 +1,75 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import SearchForm from "@/components/flight/search-form"
 import { HeroSection } from "@/components/sections/hero-section"
-import { PromotionsSection } from "@/components/sections/promotions-section"
-import { ServicesSection } from "@/components/sections/services-section"
-import { DestinationsSection } from "@/components/sections/destinations-section"
-import { NewsletterSection } from "@/components/sections/newsletter-section"
+import { PromotionsSectionOrigin } from "@/components/sections/Promosiones"
+import { OffersSection } from "@/components/sections/offers-section"
+import { PreparateViajar } from "@/components/sections/PreparateViajar"
+import { LifemilesSection } from "@/components/sections/lifemiles-section"
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+   const [hasScrolled, setHasScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY
+      if (offset > 100) { // Ajusta este valor según cuando quieras que cambie
+        setHasScrolled(true)
+      } else {
+        setHasScrolled(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="text-center">
+          <img 
+            src="/loading.gif" 
+            alt="Cargando..." 
+            className="w-32 h-32 mx-auto"
+          />
+       
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Search Form Section */}
-      <section className="relative z-10 -mt-24 px-4 mb-16">
-        <div className="container mx-auto max-w-5xl">
-          <SearchForm />
-        </div>
-      </section>
+      {/* Sticky Search Form Section */}
+         <section className={`md:sticky top-15 z-50 -mt-52 transition-all ${hasScrolled ? 'bg-white' : 'bg-transparent'}`}>
+      <div className="container mx-auto max-w-7xl px-4 ">
+        <SearchForm />
+      </div>
+    </section>
 
-      {/* Promotions Section */}
-      <PromotionsSection />
-
-      {/* Services Section */}
-      <ServicesSection />
-
-   
-
-      {/* Newsletter Section */}
-      <NewsletterSection />
+      {/* Resto del contenido con margen superior para compensar el sticky header */}
+      <div className="mt-20"> {/* Ajusta este valor según la altura de tu SearchForm */}
+        <section className="container mx-auto max-w-7xl">
+          <PromotionsSectionOrigin />
+        </section>
+        <OffersSection />
+        <PreparateViajar />
+        <LifemilesSection />
+      </div>
     </main>
   )
 }
