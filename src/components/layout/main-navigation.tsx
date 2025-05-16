@@ -117,7 +117,7 @@ export function MainNavigation() {
       </div>
 
       {/* Espacio para compensar cuando el header se hace sticky */}
-      {isSticky && <div className="h-[70px]"></div>}
+
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
