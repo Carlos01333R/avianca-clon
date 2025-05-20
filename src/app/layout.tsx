@@ -22,10 +22,8 @@ export default function RootLayout({
     <html lang="es">
 
       <body className="font-display">
-        <AuthProvider>
-          <MainNavigation />
+        <AuthProvider> 
           {children}
-          <Footer />
         </AuthProvider>
       </body>
     </html>

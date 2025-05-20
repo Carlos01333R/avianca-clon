@@ -1,10 +1,12 @@
 import { Luggage, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { SiteLogo } from "@/components/ui/site-logo"
+import { MainNavigation } from "@/components/layout/main-navigation"
 
 export default function EquipajeAdicionalPage() {
   return (
     <main className="min-h-screen bg-gray-50">
+      <MainNavigation />
      
 
       <div className="container mx-auto px-4 py-8 max-w-5xl">

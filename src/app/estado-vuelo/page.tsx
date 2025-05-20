@@ -6,6 +6,7 @@ import { useState } from "react"
 import { ArrowLeft, Search, Plane } from "lucide-react"
 import Link from "next/link"
 import { SiteLogo } from "@/components/ui/site-logo"
+import { MainNavigation } from "@/components/layout/main-navigation"
 
 export default function EstadoVueloPage() {
   const [flightNumber, setFlightNumber] = useState("")
@@ -39,7 +40,7 @@ export default function EstadoVueloPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-    
+      <MainNavigation />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="bg-white rounded-lg shadow-sm p-8">

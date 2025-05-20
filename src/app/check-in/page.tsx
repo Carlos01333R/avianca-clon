@@ -7,6 +7,7 @@ import { ArrowLeft, CheckCircle, Search } from "lucide-react"
 import Link from "next/link"
 import { SiteLogo } from "@/components/ui/site-logo"
 import { useAuth } from "@/hooks/use-auth"
+import { MainNavigation } from "@/components/layout/main-navigation"
 
 export default function CheckInPage() {
   const { isAuthenticated } = useAuth()
@@ -45,6 +46,7 @@ export default function CheckInPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
+      <MainNavigation />
      
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="bg-white rounded-lg shadow-sm p-8">

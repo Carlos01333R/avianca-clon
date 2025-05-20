@@ -9,6 +9,8 @@ import { PreparateViajar } from "@/components/sections/PreparateViajar"
 import { LifemilesSection } from "@/components/sections/lifemiles-section"
 import {InformacionInteres} from '@/components/sections/InformacionInteres';
 import { Experiencia } from '@/components/sections/Experencia';
+import { MainNavigation } from '@/components/layout/main-navigation';
+import { Footer } from '@/components/layout/footer';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
    const [hasScrolled, setHasScrolled] = useState(false)
@@ -52,7 +54,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
+      <MainNavigation />
       <HeroSection />
 
       {/* Sticky Search Form Section */}
@@ -72,6 +74,7 @@ export default function Home() {
         <LifemilesSection />
         <InformacionInteres />
         <Experiencia />
+           <Footer />
       </div>
     </main>
   )
