@@ -610,7 +610,7 @@ export default function ResultadosPage() {
                    
                    <section className="w-full flex justify-end ">
                     <button className="w-[50%] md:w-[30%] bg-green-500 rounded-bl-3xl px-3 py-1 text-white text-sm font-medium transition">
-                      <p className="flex items-center gap-x-2">
+                      <p className="flex items-center gap-x-2 text-xs md:text-base">
                         <Check />
                         Vuelo seleccionado</p>
                     </button>
@@ -1072,7 +1072,7 @@ export default function ResultadosPage() {
                 <div className="w-full flex flex-col bg-white rounded-3xl border border-green-500 overflow-hidden">
                   <section className="w-full flex justify-end ">
                     <button className="w-[50%] md:w-[30%] bg-green-500 rounded-bl-3xl px-3 py-1 text-white text-sm font-medium transition">
-                      <p className="flex items-center gap-x-2">
+                      <p className="flex items-center gap-x-2 text-xs md:text-base">
                         <Check />
                         Vuelo seleccionado</p>
                         </button>
@@ -1521,7 +1521,7 @@ export default function ResultadosPage() {
         </div>
 
         {/* Fare conditions - Siempre visible */}
-        <div className="bg-gray-100 rounded-lg shadow-sm p-4 mb-6">
+        <div className="bg-gray-100 rounded-lg shadow-sm p-4 mb-20">
           <button
             className="w-full flex items-center justify-between font-medium"
             onClick={() => setShowFareConditions(!showFareConditions)}
@@ -1667,14 +1667,14 @@ export default function ResultadosPage() {
         {tripType === "oneWay" || !returnDate
           ? // Para vuelos solo de ida
             selectedOutbound && (
-              <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t z-20">
+              <div className="fixed bottom-0 left-0 right-0 bg-gray-50 p-4 shadow-lg  z-20">
                 <div className="container mx-auto flex justify-between items-center">
                   <div>
-                    <p className="text-sm text-gray-600">Precio total</p>
+                 
                     <p className="text-xl font-bold">COP {calculateTotalPrice().toLocaleString("es-CO")}</p>
                   </div>
                   <button
-                    className="bg-red-600 text-white rounded-full px-8 py-3 font-medium hover:bg-red-700 transition"
+                    className="bg-black text-white rounded-full px-8 py-3 font-medium hover:bg-black/80 transition"
                     onClick={handleContinue}
                   >
                     Continuar
@@ -1685,8 +1685,11 @@ export default function ResultadosPage() {
           : // Para vuelos de ida y vuelta
             selectedOutbound &&
             selectedReturn && (
-              <div className="container fixed bottom-0  p-4 shadow-lg  z-20">
-                <div className="container mx-auto flex justify-end ">
+              <div className="w-full bg-gray-50  fixed bottom-0  p-4 shadow-lg  z-20">
+                <div className="container mx-auto flex justify-between items-center px-6">
+                   <div>
+                    <p className="text-xl font-bold">COP {calculateTotalPrice().toLocaleString("es-CO")}</p>
+                  </div>
                   <button
                     className="bg-black text-white rounded-full px-8 py-3 font-medium hover:bg-black/40 transition"
                     onClick={handleContinue}

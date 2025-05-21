@@ -485,7 +485,7 @@ export default function PasajerosPage() {
           </div>
 
           {/* Botón de continuar */}
-          <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t z-20">
+          <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg  z-20">
             <div className="container mx-auto flex justify-between items-center">
               <div>
                 <p className="text-sm text-gray-600">Precio total</p>
@@ -493,7 +493,7 @@ export default function PasajerosPage() {
               </div>
               <button
                 type="submit"
-                className="bg-red-600 text-white rounded-full px-8 py-3 font-medium hover:bg-red-700 transition"
+                className="bg-black text-white rounded-full px-8 py-3 font-medium hover:bg-black/80 transition"
               >
                 Continuar
               </button>
