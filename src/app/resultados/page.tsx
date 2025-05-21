@@ -750,7 +750,7 @@ export default function ResultadosPage() {
                           className={`rounded-2xl p-3 text-center cursor-pointer ${
                             dateOption.isSelected ? "border border-green-500 bg-white" : ""
                           }`}
-                          onClick={() => handleDateChange(dateOption.date, activeTab === "return")}
+                          onClick={() => handleDateChange(dateOption.date,  activeTab as "outbound" | "return" === "return")}
                         >
                           <div className="text-black">
                             {dateOption.dayName}. {dateOption.dayNumber} {dateOption.monthName}.
@@ -1207,7 +1207,7 @@ export default function ResultadosPage() {
                   {/* Selector de fechas para vuelos de vuelta */}
                   <div className="relative mb-6 overflow-hidden">
                     <div className="flex overflow-x-auto pb-2 -mx-2">
-                      {(activeTab === "outbound" ? outboundDateOptions : returnDateOptions).map((dateOption, index) => (
+                      {(activeTab as "outbound" | "return" === "outbound" ? outboundDateOptions : returnDateOptions).map((dateOption, index) => (
                         <div key={index} className={`flex-shrink-0 px-2 w-1/3 sm:w-1/5 md:w-1/7`}>
                           <div
                             className={`rounded-xl p-3 text-center cursor-pointer ${

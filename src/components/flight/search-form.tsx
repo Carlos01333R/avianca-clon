@@ -651,7 +651,7 @@ export default function SearchForm() {
           {/* Botón de búsqueda */}
           <div className="w-full md:w-auto mt-4 md:mt-0">
             <button
-              className="bg-black text-white rounded-full px-12 py-3 font-medium hover:bg-red-300 transition w-full md:w-auto"
+              className="bg-black text-white rounded-full px-12 py-3 font-medium hover:bg-black/80 transition w-full md:w-auto"
               onClick={handleSearch}
             >
               {isLoading ? "Buscando..." : "Buscar"}
