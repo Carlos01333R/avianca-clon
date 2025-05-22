@@ -560,14 +560,14 @@ export default function AsientosPage() {
        
         {/* Botones de navegación */}
         <div className="w-full fixed bottom-0 z-50   bg-white px-6">
-            <div className="text-lg text-black flex justify-center items-center gap-x-2 mb-1 py-2">
+            <div className="text-lg text-black flex md:hidden justify-center items-center gap-x-2 mb-1 py-2">
               <span >
                 Precio total asientos: 
                 </span>
                 <p className="font-black text-2xl"> COP {(seatPrices.outbound + seatPrices.return).toLocaleString("es-CO")}</p>
                
             </div>
-          <section className="w-full flex justify-between items-center">
+          <section className="w-full flex justify-between items-center md:px-20 md:py-5">
 
           {!isDesktop && tripType === "roundTrip" && activeDirection === "outbound" && selectedSeats.outbound && (
           <div className=" w-full  py-3 px-4 shadow-md md:hidden">
@@ -580,7 +580,26 @@ export default function AsientosPage() {
           </div>
         )}
 
-          <div className="w-full text-right flex justify-end">
+
+          <div className="hidden md:flex ">
+             <button
+            onClick={() => router.push("/servicios")}
+            className="border border-gray-300 rounded-full px-6 py-2 text-gray-700 font-medium hover:bg-gray-100"
+          >
+            Atrás
+          </button>
+          </div>
+        
+       
+          
+            
+   
+          <div className="w-full text-right flex justify-end md:gap-x-4">
+             <div className="text-sm text-black mb-1 hidden md:block">
+              <p>Precio total asientos:</p>
+              <span className="text-2xl font-black"> COP {(seatPrices.outbound + seatPrices.return).toLocaleString("es-CO")}</span>
+              
+            </div>
             <button
               onClick={handleContinue}
               className="bg-black text-white rounded-full px-8 py-3 font-black hover:bg-black/80"
