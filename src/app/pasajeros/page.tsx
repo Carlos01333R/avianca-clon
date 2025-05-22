@@ -4,8 +4,10 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, ShoppingCart } from "lucide-react"
 import { SiteLogo } from "@/components/ui/site-logo"
+import {PlaneTakeoff} from "lucide-react"
+
 
 export default function PasajerosPage() {
   const searchParams = useSearchParams()
@@ -22,6 +24,9 @@ export default function PasajerosPage() {
     birthYear: "",
     nationality: "",
     frequentFlyer: "",
+
+
+
   })
 
   // Datos del titular
@@ -30,14 +35,20 @@ export default function PasajerosPage() {
     prefix: "+57",
     phone: "",
     email: "",
+    confirmacionEmail : "",
   })
 
   // Validación
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   // Obtener parámetros de los vuelos
+  const origin = searchParams.get("outboundOrigin") || ""
+  const destination = searchParams.get("outboundDestination") || ""
+  const departureDate = searchParams.get("departureDate") || ""
   const tripType = searchParams.get("tripType") || "oneWay"
   const passengers = Number.parseInt(searchParams.get("passengers") || "1")
+
+
 
   // Datos del vuelo de ida
   const outboundFlightId = searchParams.get("outboundFlightId") || ""
@@ -47,6 +58,8 @@ export default function PasajerosPage() {
   const outboundArrivalTime = searchParams.get("outboundArrivalTime") || ""
   const outboundPrice = Number.parseInt(searchParams.get("outboundPrice") || "0")
   const outboundFareType = searchParams.get("outboundFareType") || ""
+  const outbounddepartureDate = searchParams.get("returndepartureDate") || ""
+ 
 
   // Datos del vuelo de vuelta (si aplica)
   const returnFlightId = searchParams.get("returnFlightId") || ""
@@ -56,6 +69,9 @@ export default function PasajerosPage() {
   const returnArrivalTime = searchParams.get("returnArrivalTime") || ""
   const returnPrice = Number.parseInt(searchParams.get("returnPrice") || "0")
   const returnFareType = searchParams.get("returnFareType") || ""
+  const returnDate = searchParams.get("returnreturnDate") || ""
+   
+
 
   useEffect(() => {
     // Verificar que tenemos los datos necesarios
@@ -121,6 +137,7 @@ export default function PasajerosPage() {
     if (!passengerData.birthYear) newErrors.birthYear = "Seleccione el año"
     if (!passengerData.nationality) newErrors.nationality = "Seleccione la nacionalidad"
 
+
     // Validar datos del titular
     if (holderData.passenger === "other") {
       if (!holderData.phone.trim()) newErrors.holderPhone = "Ingrese un teléfono"
@@ -157,6 +174,17 @@ export default function PasajerosPage() {
     router.push(`/servicios?${nextParams.toString()}`)
   }
 
+   const formatShortDate = (dateString: string) => {
+    if (!dateString) return ""
+    const [year, month, day] = dateString.split("-").map((num) => Number.parseInt(num, 10))
+    const date = new Date(year, month - 1, day, 12, 0, 0)
+    return date.toLocaleDateString("es-ES", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  }
+
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
@@ -172,14 +200,41 @@ export default function PasajerosPage() {
 
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm hidden md:block">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <div className="flex items-center gap-x-4">
               <SiteLogo className="h-8" />
+               <div className="">
+                <div className="text-center flex flex-col">
+                  <div className="flex">
+                    <h1 className="text-lg font-bold">
+                      {origin.slice(0, origin.length - 5)} a {destination.slice(0, destination.length - 5)}
+                    </h1>
+                  </div>
+                  <div className="flex">
+                    <section className="flex items-center gap-x-2 mt-2">
+                      <p className="flex items-center gap-x-2">
+                        <PlaneTakeoff width={20} color="black" /> {formatShortDate(outbounddepartureDate)}
+                       
+                      </p>
+                      {tripType === "roundTrip" && returnDate && (
+                        <p className="flex items-center gap-x-2">
+                          <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
+                          {formatShortDate(returnDate)}
+                        </p>
+                      )}
+                      <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
+                    </section>
+
+                  
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
-              <button className="bg-white border-2 border-black rounded-full px-4 py-2 text-sm font-medium flex items-center">
+              <button className="bg-white border-2 border-black rounded-full px-4 py-2 text-sm font-medium flex items-center gap-x-2">
+                <ShoppingCart height={20} width={20} color="black" />
                 COP {totalPrice.toLocaleString("es-CO")}
               </button>
             </div>
@@ -187,14 +242,36 @@ export default function PasajerosPage() {
         </div>
       </header>
 
+      <header className="bg-black shadow-sm block md:hidden">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-end">
+  
+            <div className="flex items-center">
+              <button className="font-medium flex gap-x-2 items-center text-white">
+                <div className="flex">
+                  <ShoppingCart />
+                <div className="relative h-3 w-3 bg-green-500 rounded-full -top-2 -left-1 "></div>
+                  </div>
+               <span>COP</span> 
+               <span className="font-black">
+                {totalPrice.toLocaleString("es-CO")}
+               </span>
+              
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      
       <div className="container mx-auto px-4 py-4">
         {/* Breadcrumbs */}
-        <div className="flex items-center text-sm mb-6 overflow-x-auto whitespace-nowrap">
+        <div className=" hidden md:flex items-center text-sm mb-6 overflow-x-auto whitespace-nowrap gap-x-6 ">
           <div className="flex items-center text-gray-400">
             <span className="mr-2">Vuelos</span>
             <ChevronRight className="w-4 h-4" />
           </div>
-          <div className="flex items-center text-red-600 font-medium">
+          <div className="flex items-center text-black font-bold">
             <span className="mx-2">Pasajeros</span>
             <ChevronRight className="w-4 h-4" />
           </div>
@@ -215,7 +292,34 @@ export default function PasajerosPage() {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold mb-6">Pasajeros</h1>
+          <div className="block md:hidden">
+                <div className="text-center flex flex-col">
+                  <div className="flex">
+                    <h1 className="text-lg font-bold">
+                          {origin.slice(0, origin.length - 5)} a {destination.slice(0, destination.length - 5)}
+                    </h1>
+                  </div>
+                  <div className="flex">
+                    <section className="flex items-center gap-x-2 mt-2">
+                      <p className="flex items-center gap-x-2">
+                        <PlaneTakeoff width={20} color="black" /> {formatShortDate(outbounddepartureDate)}
+                       
+                      </p>
+                      {tripType === "roundTrip" && returnDate && (
+                        <p className="flex items-center gap-x-2">
+                          <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
+                          {formatShortDate(returnDate)}
+                        </p>
+                      )}
+                      <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
+                    </section>
+
+                  
+                  </div>
+                </div>
+              </div>
+
+        <h1 className="text-2xl font-bold mb-6 mt-5">Pasajeros</h1>
         <p className="text-gray-600 mb-8">
           Ingresa el primer nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento
           de identidad.
@@ -224,7 +328,7 @@ export default function PasajerosPage() {
         <form onSubmit={handleSubmit}>
           {/* Datos del pasajero */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 className="text-xl font-bold mb-4">Adulto 1:</h2>
+            <h2 className="text-xl font-bold mb-4">Adulto {passengers}:</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {/* Género */}
@@ -395,40 +499,6 @@ export default function PasajerosPage() {
               Será la persona que recibirá la confirmación de la reserva y la única autorizada para solicitar cambios o
               reembolsos.
             </p>
-
-            <div className="mb-6">
-              <div className="flex items-center mb-4">
-                <input
-                  type="radio"
-                  id="samePassenger"
-                  name="holderPassenger"
-                  value="same"
-                  checked={holderData.passenger === "same"}
-                  onChange={handleInputChange}
-                  className="h-4 w-4 text-red-600"
-                />
-                <label htmlFor="samePassenger" className="ml-2">
-                  Soy el pasajero
-                </label>
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="otherPassenger"
-                  name="holderPassenger"
-                  value="other"
-                  checked={holderData.passenger === "other"}
-                  onChange={handleInputChange}
-                  className="h-4 w-4 text-red-600"
-                />
-                <label htmlFor="otherPassenger" className="ml-2">
-                  Otra persona
-                </label>
-              </div>
-            </div>
-
-            {holderData.passenger === "other" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="holderPhone" className="block text-sm font-medium text-gray-700 mb-1">
@@ -481,16 +551,13 @@ export default function PasajerosPage() {
                   {errors.holderEmail && <p className="mt-1 text-sm text-red-600">{errors.holderEmail}</p>}
                 </div>
               </div>
-            )}
+        
           </div>
 
           {/* Botón de continuar */}
-          <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg  z-20">
-            <div className="container mx-auto flex justify-between items-center">
-              <div>
-                <p className="text-sm text-gray-600">Precio total</p>
-                <p className="text-xl font-bold">COP {totalPrice.toLocaleString("es-CO")}</p>
-              </div>
+          <div className="fixed bottom-0 left-0 right-0  p-4 z-20">
+            <div className="container mx-auto flex justify-end items-center">
+            
               <button
                 type="submit"
                 className="bg-black text-white rounded-full px-8 py-3 font-medium hover:bg-black/80 transition"

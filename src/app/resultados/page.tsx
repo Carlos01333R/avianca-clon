@@ -17,6 +17,7 @@ export default function ResultadosPage() {
   const [expandedFaresFlight, setExpandedFaresFlight] = useState<string | null>(null)
   const [showFareConditions, setShowFareConditions] = useState(false)
 
+
   // Estado para los vuelos seleccionados (ida y vuelta)
   const [selectedOutbound, setSelectedOutbound] = useState<{ flightId: string; fareType: string } | null>(null)
   const [selectedReturn, setSelectedReturn] = useState<{ flightId: string; fareType: string } | null>(null)
@@ -186,11 +187,13 @@ export default function ResultadosPage() {
     // Crear parámetros para la página de servicios
     const flightParams = new URLSearchParams({
       outboundFlightId: outboundFlightObj.id,
-      outboundOrigin: outboundFlightObj.origin,
-      outboundDestination: outboundFlightObj.destination,
+      outboundOrigin: origin,
+      outboundDestination: destination,
       outboundDepartureTime: outboundFlightObj.departureTime,
       outboundArrivalTime: outboundFlightObj.arrivalTime,
       outboundDuration: outboundFlightObj.duration,
+      outbaundDepartureDate: departureDate,
+      outbaundReturn: returnDate,
       outboundPrice: outboundFlightObj.price.toString(),
       outboundFareType: selectedOutbound?.fareType || "",
       passengers: passengers.toString(),
@@ -207,6 +210,8 @@ export default function ResultadosPage() {
         flightParams.append("returnDepartureTime", returnFlightObj.departureTime)
         flightParams.append("returnArrivalTime", returnFlightObj.arrivalTime)
         flightParams.append("returnDuration", returnFlightObj.duration)
+        flightParams.append("returndepartureDate", departureDate)
+        flightParams.append("returnreturnDate",returnDate )
         flightParams.append("returnPrice", returnFlightObj.price.toString())
         flightParams.append("returnFareType", selectedReturn?.fareType || "")
       }
@@ -400,7 +405,6 @@ export default function ResultadosPage() {
       </header>
 
       <header className="bg-zinc-900 shadow-sm block md:hidden h-10">
-
       </header>
 
       <div className="container mx-auto px-4 py-4">
@@ -838,8 +842,8 @@ export default function ResultadosPage() {
 
                       {/* Expanded fares */}
                       {expandedFaresFlight === flight.id && (
-                        <div className="p-4">
-                          <h3 className="text-2xl mb-4 text-center font-black">Elige cómo quieres volar</h3>
+                        <div className="p-4 hidden md:block">
+                          <h3 className="text-2xl mb-4 text-center font-black ">Elige cómo quieres volar</h3>
 
                           {/* Fare options */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -1047,6 +1051,217 @@ export default function ResultadosPage() {
                           </div>
                         </div>
                       )}
+                      {expandedFaresFlight === flight.id && (
+                        <div className="p-4 block md:hidden">
+                          <h3 className="text-2xl mb-4 text-center font-black ">Elige cómo quieres volar</h3>
+
+                          {/* Fare options */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            {/* Basic fare */}
+                            <div
+                              className={`shadow-2xl rounded-2xl overflow-hidden ${
+                                currentSelectedFare?.flightId === flight.id && currentSelectedFare?.fareType === "basic"
+                                  ? "border-2 border-red-600"
+                                  : ""
+                              }`}
+                            >
+                              <div className="bg-white p-4">
+                                <div className="text-center mb-4">
+                                  <h4 className="text-red-600 font-bold">basic</h4>
+                                  <p className="text-xs text-gray-500">Tarifa ligera</p>
+                                  <div className="text-xl font-bold text-red-600 mt-2">
+                                    COP {flight.price.toLocaleString("es-CO")}
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2 mb-4">
+                                  <div className="flex items-start">
+                                    <div className="text-red-600 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 artículo personal (bolso)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Acumula 2 Millas por cada USD</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Equipaje de mano (10 kg)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Equipaje de bodega (23 kg)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Check-in en aeropuerto</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Selección de asiento</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Menú a bordo</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Cambios (antes del vuelo)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Reembolsos</div>
+                                  </div>
+                                </div>
+
+                                <button
+                                  className="w-full bg-red-600 text-white rounded-lg py-3 font-medium hover:bg-red-700 transition"
+                                  onClick={() => handleSelectFare(flight.id, "basic")}
+                                >
+                                  Seleccionar
+                                </button>
+                                <div className="text-xs text-center text-gray-500 mt-2">*Precio por pasajero</div>
+                              </div>
+                            </div>
+
+                            {/* Classic fare */}
+                            <div
+                              className={`border-2 border-purple-600 rounded-lg overflow-hidden relative ${
+                                currentSelectedFare?.flightId === flight.id &&
+                                currentSelectedFare?.fareType === "classic"
+                                  ? "border-2 border-purple-600"
+                                  : ""
+                              }`}
+                            >
+                              <div className="absolute top-0 right-0 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-bl-lg">
+                                RECOMENDADO
+                              </div>
+                              <div className="bg-white p-4">
+                                <div className="text-center mb-4">
+                                  <h4 className="text-purple-600 font-bold">classic</h4>
+                                  <p className="text-xs text-gray-500">Más completo</p>
+                                  <div className="text-xl font-bold text-purple-600 mt-2">
+                                    COP {Math.round(flight.price * 1.25).toLocaleString("es-CO")}
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2 mb-4">
+                                  <div className="flex items-start">
+                                    <div className="text-purple-600 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 artículo personal (bolso)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-purple-600 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 equipaje de mano (10 kg)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-purple-600 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 equipaje de bodega (23 kg)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-purple-600 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Check-in en aeropuerto</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-purple-600 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Asiento Economy incluido</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Acumula 6 Millas por cada USD</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Menú a bordo</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Cambios (antes del vuelo)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-gray-400 mr-2 mt-1">•</div>
+                                    <div className="text-sm text-gray-500">Reembolsos</div>
+                                  </div>
+                                </div>
+
+                                <button
+                                  className="w-full bg-purple-600 text-white rounded-lg py-3 font-medium hover:bg-purple-700 transition"
+                                  onClick={() => handleSelectFare(flight.id, "classic")}
+                                >
+                                  Seleccionar
+                                </button>
+                                <div className="text-xs text-center text-gray-500 mt-2">*Precio por pasajero</div>
+                              </div>
+                            </div>
+
+                            {/* Flex fare */}
+                            <div
+                              className={`shadow-2xl rounded-lg overflow-hidden ${
+                                currentSelectedFare?.flightId === flight.id && currentSelectedFare?.fareType === "flex"
+                                  ? "border-2 border-orange-500"
+                                  : ""
+                              }`}
+                            >
+                              <div className="bg-white p-4">
+                                <div className="text-center mb-4">
+                                  <h4 className="text-orange-500 font-bold">flex</h4>
+                                  <p className="text-xs text-gray-500">Más personalizable</p>
+                                  <div className="text-xl font-bold text-orange-500 mt-2">
+                                    COP {Math.round(flight.price * 1.45).toLocaleString("es-CO")}
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2 mb-4">
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 artículo personal (bolso)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 equipaje de mano (10 kg)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">1 equipaje de bodega (23 kg)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Check-in en aeropuerto</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Asiento Plus (sujeto a disponibilidad)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Acumula 8 Millas por cada USD</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Cambios (antes del vuelo)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Reembolsos (sujetos del vuelo)</div>
+                                  </div>
+                                  <div className="flex items-start">
+                                    <div className="text-orange-500 mr-2 mt-1">•</div>
+                                    <div className="text-sm">Menú a bordo</div>
+                                  </div>
+                                </div>
+
+                                <button
+                                  className="w-full bg-orange-500 text-white rounded-lg py-3 font-medium hover:bg-orange-600 transition"
+                                  onClick={() => handleSelectFare(flight.id, "flex")}
+                                >
+                                  Seleccionar
+                                </button>
+                                <div className="text-xs text-center text-gray-500 mt-2">*Precio por pasajero</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                     </div>
                   ))}
                 </div>

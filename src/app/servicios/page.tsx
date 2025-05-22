@@ -1,38 +1,63 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { ArrowLeft, ChevronRight, Luggage, Armchair, Shield } from "lucide-react"
+import { ChevronRight, Luggage, Bike, Shield, PlaneTakeoff } from "lucide-react"
 import { SiteLogo } from "@/components/ui/site-logo"
 
 export default function ServiciosPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  
 
   // Obtener parámetros del vuelo seleccionado
-  const flightId = searchParams.get("flightId") || ""
-  const origin = searchParams.get("origin") || ""
-  const destination = searchParams.get("destination") || ""
-  const departureTime = searchParams.get("departureTime") || ""
-  const arrivalTime = searchParams.get("arrivalTime") || ""
-  const duration = searchParams.get("duration") || ""
-  const price = Number(searchParams.get("price") || "0")
+  const origin = searchParams.get("outboundOrigin") || ""
+  const destination = searchParams.get("outboundDestination") || ""
+  const departureDate = searchParams.get("returndepartureDate") || ""
+  const returnDate = searchParams.get("returnreturnDate") || ""
+  const tripType = searchParams.get("tripType") || "oneWay"
   const passengers = Number(searchParams.get("passengers") || "1")
-  const direct = searchParams.get("direct") === "true"
-  const fareType = searchParams.get("fareType") || ""
+  const outboundPrice = Number.parseInt(searchParams.get("outboundPrice") || "0")
+  const returnPrice = Number.parseInt(searchParams.get("returnPrice") || "0")
+    // Calcular precio total
+  const basePrice = outboundPrice + (tripType === "roundTrip" ? returnPrice : 0)
+  const [priceEnd, setPriceEnd] = useState(basePrice)
+  
+
+
+  // Extraer nombres de ciudades
+  const originCity = origin.split(" (")[0] || "Bogotá"
+  const destinationCity = destination.split(" (")[0] || "Cali"
+
+  // Datos del pasajero
+  const passengerGender = searchParams.get("passengerGender") || ""
+  const passengerFirstName = searchParams.get("passengerFirstName") || ""
+  const passengerLastName = searchParams.get("passengerLastName") || ""
 
   // Servicios adicionales seleccionados
   const [selectedServices, setSelectedServices] = useState({
-    extraLuggage: false,
-    seatSelection: false,
-    travelInsurance: false,
+    handLuggage: false,
+    sportsEquipment: false,
+    lounge: false,
+    specialAssistance: false,
+    travelAssistance: false,
   })
+
+  // Precios de los servicios
+  const servicePrices = {
+    handLuggage: 65000,
+    sportsEquipment: 100000,
+    lounge: 99000,
+    specialAssistance: 0,
+    travelAssistance: 34000,
+  }
 
   useEffect(() => {
     // Verificar si tenemos los datos necesarios
-    if (!flightId || !origin || !destination) {
+    if (!origin || !destination || !departureDate) {
       router.push("/")
+     
       return
     }
 
@@ -40,14 +65,29 @@ export default function ServiciosPage() {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
-  }, [flightId, origin, destination, router])
+  }, [origin, destination, departureDate, router])
+
 
   const handleServiceChange = (service: keyof typeof selectedServices) => {
-    setSelectedServices((prev) => ({
+  // Primero actualizamos el estado de los servicios
+  setSelectedServices((prev) => {
+    const newServices = {
       ...prev,
       [service]: !prev[service],
-    }))
-  }
+    };
+    
+    // Calculamos el nuevo precio total
+    let newPrice = basePrice;
+    Object.entries(newServices).forEach(([key, value]) => {
+      if (value) {
+        newPrice += servicePrices[key as keyof typeof servicePrices];
+      }
+    });
+    
+    setPriceEnd(newPrice);
+    return newServices;
+  });
+};
 
   const handleContinue = () => {
     // Crear parámetros para la siguiente página
@@ -58,8 +98,28 @@ export default function ServiciosPage() {
       nextParams.set(key, value.toString())
     })
 
+    // Calcular precio total de servicios
+    let servicesTotal = 0
+    Object.entries(selectedServices).forEach(([key, value]) => {
+      if (value) {
+        servicesTotal += servicePrices[key as keyof typeof servicePrices]
+      }
+    })
+    nextParams.set("servicesTotal", servicesTotal.toString())
+
     // Redirigir a la página de asientos
     router.push(`/asientos?${nextParams.toString()}`)
+  }
+
+  const formatShortDate = (dateString: string) => {
+    if (!dateString) return ""
+    const [year, month, day] = dateString.split("-").map((num) => Number.parseInt(num, 10))
+    const date = new Date(year, month - 1, day, 12, 0, 0)
+    return date.toLocaleDateString("es-ES", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
   }
 
   if (loading) {
@@ -72,20 +132,77 @@ export default function ServiciosPage() {
     )
   }
 
+  // Calcular precio total base (sin servicios)
+
+
   return (
-    <main className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-sm">
+    <main className="min-h-screen bg-gray-50 pb-20">
+      <header className="bg-white shadow-sm hidden md:block">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <button className="mr-4 text-gray-600" onClick={() => router.back()}>
-                <ArrowLeft className="w-5 h-5" />
-              </button>
+
+            <div className="flex items-center gap-x-4 ">
               <SiteLogo className="h-8" />
+              <div className="mb-5">
+              <div className="text-center flex flex-col">
+            <div className="flex">
+              <h1 className="text-lg font-bold">
+                {originCity} a {destinationCity}
+              </h1>
             </div>
+            <div className="flex">
+              <section className="flex items-center gap-x-2 mt-2">
+                <p className="flex items-center gap-x-2">
+                  <PlaneTakeoff width={20} color="black" /> {formatShortDate(departureDate)}
+                </p>
+                {tripType === "roundTrip" && returnDate && (
+                  <p className="flex items-center gap-x-2">
+                    <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
+                    {formatShortDate(returnDate)}
+                  </p>
+                )}
+                <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
+              </section>
+            </div>
+          </div>
+        </div>
+            </div>
+
             <div>
-              <button className="bg-white border border-gray-300 rounded-full px-4 py-1 text-sm font-medium flex items-center">
-                COP 0
+              <button className="bg-white border-2 border-black rounded-full px-4 py-2 text-sm font-medium flex items-center">
+                <span className="mr-1">COP</span>
+                <span className="font-bold">{priceEnd.toLocaleString("es-CO")}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="ml-1"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </header>
+
+      <header className="bg-black shadow-sm block md:hidden">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center"></div>
+            <div>
+              <button className="font-medium flex gap-x-2 items-center text-white">
+                <span>COP</span>
+                <span className="font-black">
+                 
+                  {priceEnd.toLocaleString("es-CO")}</span>
               </button>
             </div>
           </div>
@@ -94,7 +211,7 @@ export default function ServiciosPage() {
 
       <div className="container mx-auto px-4 py-4">
         {/* Breadcrumbs */}
-        <div className="flex items-center text-sm mb-4 overflow-x-auto whitespace-nowrap">
+        <div className="hidden md:flex items-center text-sm mb-6 overflow-x-auto whitespace-nowrap">
           <div className="flex items-center text-gray-400">
             <span className="mr-2">Vuelos</span>
             <ChevronRight className="w-4 h-4" />
@@ -103,7 +220,7 @@ export default function ServiciosPage() {
             <span className="mx-2">Pasajeros</span>
             <ChevronRight className="w-4 h-4" />
           </div>
-          <div className="flex items-center text-red-600 font-medium">
+          <div className="flex items-center text-black font-bold">
             <span className="mx-2">Servicios</span>
             <ChevronRight className="w-4 h-4" />
           </div>
@@ -120,133 +237,235 @@ export default function ServiciosPage() {
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold mb-6">Servicios adicionales</h1>
-
-        {/* Flight summary */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="text-center mr-8">
-                <div className="text-xl font-bold">{departureTime}</div>
-                <div className="text-sm text-gray-500">{origin}</div>
-              </div>
-
-              <div className="flex flex-col items-center mx-4">
-                <div className="text-xs text-blue-600 font-medium mb-1">Directo</div>
-                <div className="relative w-20">
-                  <div className="border-t border-gray-300 absolute w-full top-1/2"></div>
-                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  </div>
-                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  </div>
-                </div>
-                <div className="text-xs text-gray-500 mt-1">{duration}</div>
-              </div>
-
-              <div className="text-center">
-                <div className="text-xl font-bold">{arrivalTime}</div>
-                <div className="text-sm text-gray-500">{destination}</div>
-              </div>
+        <div className="block md:hidden mb-5">
+          <div className="text-center flex flex-col">
+            <div className="flex">
+              <h1 className="text-lg font-bold">
+                {originCity} a {destinationCity}
+              </h1>
             </div>
-
-            <div className="text-right">
-              <div className="text-sm text-gray-500">Tarifa {fareType}</div>
-              <div className="text-xl font-bold">COP {price.toLocaleString("es-CO")}</div>
+            <div className="flex">
+              <section className="flex items-center gap-x-2 mt-2">
+                <p className="flex items-center gap-x-2">
+                  <PlaneTakeoff width={20} color="black" /> {formatShortDate(departureDate)}
+                </p>
+                {tripType === "roundTrip" && returnDate && (
+                  <p className="flex items-center gap-x-2">
+                    <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
+                    {formatShortDate(returnDate)}
+                  </p>
+                )}
+                <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
+              </section>
             </div>
           </div>
         </div>
 
-        {/* Services selection */}
+        <h1 className="text-2xl font-bold mb-6">Personaliza tu viaje</h1>
+
+        {/* Equipaje */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Equipaje de mano y bodega */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="p-6 flex items-start">
+              <div className="flex-shrink-0 mr-4">
+                <div className="w-24 h-24 flex items-center justify-center">
+                  <Luggage className="w-16 h-16 text-red-600" />
+                </div>
+              </div>
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold mb-1">Equipaje de mano y bodega</h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  Revisa el equipaje incluido en tu tarifa y añade el que necesites.
+                </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-500">Desde</p>
+                    <p className="text-lg font-bold">COP {servicePrices.handLuggage.toLocaleString("es-CO")}</p>
+                  </div>
+                  <button
+                    className={`px-4 py-2 rounded-lg font-medium ${
+                      selectedServices.handLuggage ? "bg-red-600 text-white" : "bg-black text-white"
+                    }`}
+                    onClick={() => handleServiceChange("handLuggage")}
+                  >
+                    {selectedServices.handLuggage ? "Añadido" : "Añadir"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Equipaje deportivo */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="p-6 flex items-start">
+              <div className="flex-shrink-0 mr-4">
+                <div className="w-24 h-24 flex items-center justify-center">
+                  <Bike className="w-16 h-16 text-red-600" />
+                </div>
+              </div>
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold mb-1">Equipaje deportivo</h3>
+                <p className="text-gray-600 text-sm mb-4">Vuela con tu pasión a todas partes.</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-500">Desde</p>
+                    <p className="text-lg font-bold">COP {servicePrices.sportsEquipment.toLocaleString("es-CO")}</p>
+                  </div>
+                  <button
+                    className={`px-4 py-2 rounded-lg font-medium ${
+                      selectedServices.sportsEquipment ? "bg-red-600 text-white" : "bg-black text-white"
+                    }`}
+                    onClick={() => handleServiceChange("sportsEquipment")}
+                  >
+                    {selectedServices.sportsEquipment ? "Añadido" : "Añadir"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 className="text-xl font-bold mb-6">Complementa tu viaje con las opciones que tenemos para ti</h2>
+
+        {/* Servicios adicionales */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Extra luggage */}
-          <div
-            className={`bg-white rounded-lg shadow-sm overflow-hidden ${selectedServices.extraLuggage ? "border-2 border-red-600" : ""}`}
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-center mb-4">
-                <div className="bg-red-100 rounded-full p-3">
-                  <Luggage className="w-8 h-8 text-red-600" />
+          {/* Avianca lounges */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="p-6 flex flex-col h-full">
+              <div className="flex-shrink-0 mb-4 flex justify-center">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19 9V7C19 5.93913 18.5786 4.92172 17.8284 4.17157C17.0783 3.42143 16.0609 3 15 3H9C7.93913 3 6.92172 3.42143 6.17157 4.17157C5.42143 4.92172 5 5.93913 5 7V9"
+                      stroke="#E30613"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M5 15V17C5 18.0609 5.42143 19.0783 6.17157 19.8284C6.92172 20.5786 7.93913 21 9 21H15C16.0609 21 17.0783 20.5786 17.8284 19.8284C18.5786 19.0783 19 18.0609 19 17V15"
+                      stroke="#E30613"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M3 9H21V15H3V9Z"
+                      stroke="#E30613"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path d="M12 9V15" stroke="#E30613" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-center mb-2">Equipaje adicional</h3>
-              <p className="text-gray-600 text-center mb-4">Añade una maleta adicional de hasta 23kg</p>
-              <div className="text-center text-xl font-bold text-red-600 mb-4">COP 120.000</div>
-              <button
-                className={`w-full py-2 rounded-lg font-medium ${
-                  selectedServices.extraLuggage
-                    ? "bg-red-600 text-white"
-                    : "bg-white border border-red-600 text-red-600"
-                }`}
-                onClick={() => handleServiceChange("extraLuggage")}
-              >
-                {selectedServices.extraLuggage ? "Seleccionado" : "Añadir"}
-              </button>
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold mb-1 text-center">avianca lounges</h3>
+                <p className="text-gray-600 text-sm mb-4 text-center">Espera tu vuelo con todas las comodidades.</p>
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-500">Desde</p>
+                      <p className="text-lg font-bold">COP {servicePrices.lounge.toLocaleString("es-CO")}</p>
+                    </div>
+                    <button
+                      className={`px-4 py-2 rounded-lg font-medium ${
+                        selectedServices.lounge ? "bg-red-600 text-white" : "bg-black text-white"
+                      }`}
+                      onClick={() => handleServiceChange("lounge")}
+                    >
+                      {selectedServices.lounge ? "Añadido" : "Añadir"}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Seat selection */}
-          <div
-            className={`bg-white rounded-lg shadow-sm overflow-hidden ${selectedServices.seatSelection ? "border-2 border-red-600" : ""}`}
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-center mb-4">
-                <div className="bg-red-100 rounded-full p-3">
-                  <Armchair className="w-8 h-8 text-red-600" />
+          {/* Asistencia especial */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="p-6 flex flex-col h-full">
+              <div className="flex-shrink-0 mb-4 flex justify-center">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                      stroke="#E30613"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path d="M12 8V16" stroke="#E30613" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8 12H16" stroke="#E30613" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-center mb-2">Selección de asientos</h3>
-              <p className="text-gray-600 text-center mb-4">Elige tu asiento preferido</p>
-              <div className="text-center text-xl font-bold text-red-600 mb-4">COP 80.000</div>
-              <button
-                className={`w-full py-2 rounded-lg font-medium ${
-                  selectedServices.seatSelection
-                    ? "bg-red-600 text-white"
-                    : "bg-white border border-red-600 text-red-600"
-                }`}
-                onClick={() => handleServiceChange("seatSelection")}
-              >
-                {selectedServices.seatSelection ? "Seleccionado" : "Añadir"}
-              </button>
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold mb-1 text-center">Asistencia especial</h3>
+                <p className="text-gray-600 text-sm mb-4 text-center">Conoce las opciones según tus necesidades.</p>
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-lg font-bold">Servicio gratuito</p>
+                    </div>
+                    <button
+                      className={`px-4 py-2 rounded-lg font-medium ${
+                        selectedServices.specialAssistance ? "bg-red-600 text-white" : "bg-black text-white"
+                      }`}
+                      onClick={() => handleServiceChange("specialAssistance")}
+                    >
+                      {selectedServices.specialAssistance ? "Añadido" : "Añadir"}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Travel insurance */}
-          <div
-            className={`bg-white rounded-lg shadow-sm overflow-hidden ${selectedServices.travelInsurance ? "border-2 border-red-600" : ""}`}
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-center mb-4">
-                <div className="bg-red-100 rounded-full p-3">
-                  <Shield className="w-8 h-8 text-red-600" />
+          {/* Asistencia en viaje */}
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="p-6 flex flex-col h-full">
+              <div className="flex-shrink-0 mb-4 flex justify-center">
+                <div className="w-16 h-16 flex items-center justify-center">
+                  <Shield className="w-12 h-12 text-red-600" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-center mb-2">Seguro de viaje</h3>
-              <p className="text-gray-600 text-center mb-4">Protege tu viaje contra imprevistos</p>
-              <div className="text-center text-xl font-bold text-red-600 mb-4">COP 95.000</div>
-              <button
-                className={`w-full py-2 rounded-lg font-medium ${
-                  selectedServices.travelInsurance
-                    ? "bg-red-600 text-white"
-                    : "bg-white border border-red-600 text-red-600"
-                }`}
-                onClick={() => handleServiceChange("travelInsurance")}
-              >
-                {selectedServices.travelInsurance ? "Seleccionado" : "Añadir"}
-              </button>
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold mb-1 text-center">Asistencia en viaje</h3>
+                <p className="text-gray-600 text-sm mb-4 text-center">Cobertura médica, legal y más en tu destino.</p>
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-500">Desde</p>
+                      <p className="text-lg font-bold">COP {servicePrices.travelAssistance.toLocaleString("es-CO")}</p>
+                    </div>
+                    <button
+                      className={`px-4 py-2 rounded-lg font-medium ${
+                        selectedServices.travelAssistance ? "bg-red-600 text-white" : "bg-black text-white"
+                      }`}
+                      onClick={() => handleServiceChange("travelAssistance")}
+                    >
+                      {selectedServices.travelAssistance ? "Añadido" : "Añadir"}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Continue button */}
-        <div className="text-center">
-          <button
-            className="bg-red-600 text-white rounded-full px-8 py-3 font-medium hover:bg-red-700 transition"
-            onClick={handleContinue}
-          >
-            Continuar
-          </button>
+        {/* Botón de continuar */}
+        <div className="fixed bottom-0 left-0 right-0  p-4 shadow-lg  z-20">
+          <div className="container mx-auto flex justify-end items-center">
+            <button
+              className="bg-black text-white rounded-full px-8 py-3 font-medium hover:bg-black/80 transition"
+              onClick={handleContinue}
+            >
+              Continuar
+            </button>
+          </div>
         </div>
       </div>
     </main>
