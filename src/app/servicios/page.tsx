@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { ChevronRight, Luggage, Bike, Shield, PlaneTakeoff } from "lucide-react"
+import { ChevronRight, Luggage, Bike, Shield, PlaneTakeoff, ShoppingCart } from "lucide-react"
 import { SiteLogo } from "@/components/ui/site-logo"
+import Image from "next/image";
+import Link  from "next/link";
 
 export default function ServiciosPage() {
   const searchParams = useSearchParams()
@@ -142,7 +144,9 @@ export default function ServiciosPage() {
           <div className="flex items-center justify-between">
 
             <div className="flex items-center gap-x-4 ">
+              <Link href="/" >
               <SiteLogo className="h-8" />
+              </Link>
               <div className="mb-5">
               <div className="text-center flex flex-col">
             <div className="flex">
@@ -165,7 +169,7 @@ export default function ServiciosPage() {
               </section>
             </div>
           </div>
-        </div>
+             </div>
             </div>
 
             <div>
@@ -194,11 +198,19 @@ export default function ServiciosPage() {
       </header>
 
       <header className="bg-black shadow-sm block md:hidden">
-        <div className="container mx-auto px-4 py-4">
+
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
+             <Link href="/">
+        <Image src='/logomovil.svg' alt="logo" width={80} height={20} />
+        </Link>
             <div className="flex items-center"></div>
             <div>
               <button className="font-medium flex gap-x-2 items-center text-white">
+                  <div className="flex">
+                  <ShoppingCart />
+                <div className="relative h-3 w-3 bg-green-500 rounded-full -top-1 -left-1 "></div>
+                  </div>
                 <span>COP</span>
                 <span className="font-black">
                  

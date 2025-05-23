@@ -6,25 +6,25 @@ export function InformacionInteres() {
       title: "Experiencia avianca",
       description: "¡Listo para despegar! Descubre los servicios a bordo que te ofrecemos al volar con nosotros.",
       icon: "https://static.avianca.com/media/o51lgtpq/descubre-servicios-a-bordo-experiencia-avianca-1.jpg",
-      link: "",
+      link: "https://www.avianca.com/es/informacion-y-ayuda/experiencia-avianca/?type=boton_experiencia",
     },
     {
       title: "Equipaje",
       description: "Entérate de las condiciones que debes tener en cuenta al momento de preparar tu equipaje.",
       icon: "https://static.avianca.com/media/1006/enterate-condiciones-equipaje.webp",
-      link: "https://www.aerolinea.com.co/centro-de-ayuda",
+      link: "https://www.avianca.com/es/informacion-y-ayuda/equipaje/?type=boton_equipaje",
     },
     {
       title: "Unidos contra el fraude",
       description: "Protege tu viaje comprando tus tiquetes y servicios adicionales en nuestros canales oficiales.",
       icon: "https://static.avianca.com/media/i2gbq34w/unidos-contra-el-fraude.jpg",
-      link: "https://www.aerolinea.com.co/requisitos-para-viajar",
+      link: "https://ayuda.avianca.com/hc/es/articles/31084120490523-Protege-tu-viaje-comprando-en-sitios-oficiales",
     },
     {
       title: "Inspírate",
       description: "Explora nuestros destinos y planea tu próxima aventura. Sácale provecho a tu siguiente vuelo.",
       icon: "https://static.avianca.com/media/1244/tu-destino-ideal.png",
-      link: "https://www.aerolinea.com.co/pasajeros",
+      link: "https://www.avianca.com/es/ofertas-destinos/destinos/",
     },
   ]
 

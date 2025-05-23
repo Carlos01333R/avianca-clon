@@ -6,19 +6,19 @@ export function PreparateViajar() {
             title: "Check-in online",
             description: "Obtén tu pase de abordar y ahorra tiempo en el aeropuerto.",
             icon: "/3.svg",
-            link: "https://www.aerolinea.com.co/check-in",
+            link: "https://www.avianca.com/es/tu-reserva/check-in-online/",
         },
         {
             title: "Centro de ayuda",
             description: "Busca y encuentra información útil para resolver tus preguntas.",
             icon: "/2.svg",
-            link: "https://www.aerolinea.com.co/centro-de-ayuda",
+            link: "https://ayuda.avianca.com/hc/es",
         },
         {
             title: "Requisitos para viajar",
             description: "Infórmate acerca de visas, vacunas y demás documentos.",
             icon: "1.svg",
-            link: "https://www.aerolinea.com.co/requisitos-para-viajar",
+            link: "https://ayuda.avianca.com/hc/es/sections/12994143912603",
         },
     ]
 

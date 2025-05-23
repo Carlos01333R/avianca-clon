@@ -7,6 +7,8 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { ChevronRight, ShoppingCart } from "lucide-react"
 import { SiteLogo } from "@/components/ui/site-logo"
 import {PlaneTakeoff} from "lucide-react"
+import Image from "next/image";
+import Link  from "next/link";
 
 
 export default function PasajerosPage() {
@@ -243,14 +245,16 @@ export default function PasajerosPage() {
       </header>
 
       <header className="bg-black shadow-sm block md:hidden">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-end">
-  
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+             <Link href="/" >
+                    <Image src='/logomovil.svg' alt="logo" width={80} height={20} />
+                    </Link>
             <div className="flex items-center">
               <button className="font-medium flex gap-x-2 items-center text-white">
                 <div className="flex">
                   <ShoppingCart />
-                <div className="relative h-3 w-3 bg-green-500 rounded-full -top-2 -left-1 "></div>
+                <div className="relative h-3 w-3 bg-green-500 rounded-full -top-1 -left-1 "></div>
                   </div>
                <span>COP</span> 
                <span className="font-black">

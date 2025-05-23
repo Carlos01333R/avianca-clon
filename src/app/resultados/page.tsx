@@ -6,6 +6,9 @@ import { ChevronDown, Plane, ChevronRight, ChevronUp, ChevronLeft, PlaneTakeoff,
 import { SiteLogo } from "@/components/ui/site-logo"
 import { generateRandomFlights } from "@/lib/flight-utils"
 import type { Flight } from "@/types/flight"
+import Image from "next/image";
+import Link from "next/link";
+
 
 export default function ResultadosPage() {
   const searchParams = useSearchParams()
@@ -404,7 +407,11 @@ export default function ResultadosPage() {
         </div>
       </header>
 
-      <header className="bg-zinc-900 shadow-sm block md:hidden h-10">
+      <header className="bg-zinc-900 shadow-sm flex items-center justify-start  md:hidden  ">
+        <Link href="/" className="p-2">
+        <Image src='/logomovil.svg' alt="logo" width={80} height={20} />
+        </Link>
+     
       </header>
 
       <div className="container mx-auto px-4 py-4">

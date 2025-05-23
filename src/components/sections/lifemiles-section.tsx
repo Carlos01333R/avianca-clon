@@ -8,7 +8,7 @@ export function LifemilesSection() {
             title: "Suscríbete a lifemiles+",
             description: "Y recibe un descuento exclusivo al redimir tiquetes con avianca.",
             icon: "/bannerav_lmplus.png",
-            link: "",
+            link: "https://www.lifemiles.com/landing/clublm?utm_source=avianca&utm_medium=referral&utm_campaign=banner_secundario",
             titleLink:"Suscribirse ya",
          
         },
@@ -16,14 +16,14 @@ export function LifemilesSection() {
             title: "Hasta 20,000 millas",
             description: "De bienvenida con tu tarjeta de crédito.",
             icon: "/thumbnail_cob_generica.png",
-            link: "https://www.aerolinea.com.co/centro-de-ayuda",
+            link: "https://www.lifemiles.com/credit-card/get-credit-card?utm_source=avianca&utm_medium=referral&utm_campaign=banner_secundario",
             titleLink:"Aplica ya",
         },
         {
             title: "¡Suscríbete y gana el doble!",
             description: "2x1 en millas en rutas seleccionadas.",
             icon: "/background-banner-secundario-home-2x1.png",
-            link: "https://www.aerolinea.com.co/centro-de-ayuda",
+            link: "https://www.lifemiles.com/bonus-subscription2x1/es/wr/MILLAS2X?&utm_source=avianca&utm_medium=referral&utm_campaign=GL_Monday0505_2Xmillas_home",
             titleLink:"Suscribirse",
         },
     ]
