@@ -6,6 +6,16 @@ import { ChevronRight, Info, PlaneTakeoff, ChevronDown, ShoppingCart } from "luc
 import { SiteLogo } from "@/components/ui/site-logo"
 import Link from "next/link"
 
+// Tipos para los datos de la tarjeta
+type CardData = {
+  cardholderName: string
+  cardNumber: string
+  expiryMonth: string
+  expiryYear: string
+  cvv: string
+  cardType: string | null
+}
+
 export default function PagoPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -17,12 +27,21 @@ export default function PagoPage() {
   const [paymentMethod, setPaymentMethod] = useState("pse")
 
   // Estado para los datos de la tarjeta
-  const [cardData, setCardData] = useState({
+  const [cardData, setCardData] = useState<CardData>({
     cardholderName: "",
     cardNumber: "",
     expiryMonth: "",
     expiryYear: "",
     cvv: "",
+    cardType: null
+  })
+
+  const [errors, setErrors] = useState({
+    cardholderName: "",
+    cardNumber: "",
+    expiryMonth: "",
+    expiryYear: "",
+    cvv: ""
   })
 
   // Estado para opciones adicionales
@@ -46,7 +65,7 @@ export default function PagoPage() {
   const tripType = searchParams.get("tripType") || "roundTrip"
   const returnFareType = searchParams.get("returnFareType") || ""
   const returnPrice = Number.parseInt(searchParams.get("returnPrice") || "0")
-  const  outboundPrice = Number.parseInt(searchParams.get("outboundPrice") || "0")
+  const outboundPrice = Number.parseInt(searchParams.get("outboundPrice") || "0")
   const servicesTotal = Number.parseInt(searchParams.get("servicesTotal") || "0")
 
   // Datos del vuelo de ida
@@ -69,14 +88,95 @@ export default function PagoPage() {
     }, 1000)
   }, [])
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+  // Función para detectar el tipo de tarjeta
+  const detectCardType = (cardNumber: string): string | null => {
+    const cleaned = cardNumber.replace(/\s+/g, '')
+    
+    // Visa
+    if (/^4/.test(cleaned)) {
+      return 'visa'
+    }
+    // Mastercard
+    if (/^5[1-5]/.test(cleaned)) {
+      return 'mastercard'
+    }
+    // American Express
+    if (/^3[47]/.test(cleaned)) {
+      return 'amex'
+    }
+    
+    return null
+  }
+
+  // Formatear número de tarjeta con espacios cada 4 dígitos
+  const formatCardNumber = (value: string): string => {
+    const cleaned = value.replace(/\D/g, '')
+    const cardType = detectCardType(cleaned)
+    
+    // American Express tiene formato 4-6-5
+    if (cardType === 'amex') {
+      return cleaned.replace(/(\d{4})(\d{6})(\d{5})/, '$1 $2 $3').trim()
+    }
+    
+    // Otras tarjetas formato 4-4-4-4
+    return cleaned.replace(/(\d{4})(?=\d)/g, '$1 ').trim()
+  }
+
+  // Validar número de tarjeta según tipo
+  const validateCardNumber = (cardNumber: string): boolean => {
+    const cleaned = cardNumber.replace(/\s+/g, '')
+    const cardType = detectCardType(cleaned)
+    
+    if (cardType === 'amex') {
+      return cleaned.length === 15
+    }
+    
+    return cleaned.length === 16
+  }
+
+ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
 
-    if (name.startsWith("card")) {
+    if (name === "cardNumber") {
+      const formatted = formatCardNumber(value)
+      const cardType = detectCardType(formatted)
+
+      setCardData({
+        ...cardData,
+        [name]: formatted,
+        cardType,
+      })
+
+      // Validación en tiempo real
+      setErrors({
+        ...errors,
+        cardNumber: validateCardNumber(formatted) ? "" : "Número de tarjeta inválido",
+      })
+    } else if (name === "cardholderName" || name === "expiryMonth" || name === "expiryYear" || name === "cvv") {
       setCardData({
         ...cardData,
         [name]: value,
       })
+
+      // Validación básica para otros campos
+      if (value === "") {
+        const errorMessages = {
+          cardholderName: "Nombre del titular es requerido",
+          expiryMonth: "Mes de expiración es requerido",
+          expiryYear: "Año de expiración es requerido",
+          cvv: "CVV es requerido",
+        }
+
+        setErrors({
+          ...errors,
+          [name]: errorMessages[name as keyof typeof errorMessages] || "Este campo es requerido",
+        })
+      } else {
+        setErrors({
+          ...errors,
+          [name]: "",
+        })
+      }
     } else if (name.startsWith("billing")) {
       setBillingData({
         ...billingData,
@@ -99,15 +199,29 @@ export default function PagoPage() {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    setLoading(true)
+    
+    // Validación final antes de enviar
+    const newErrors = {
+      cardholderName: cardData.cardholderName ? "" : "Nombre del titular es requerido",
+      cardNumber: validateCardNumber(cardData.cardNumber) ? "" : "Número de tarjeta inválido",
+      expiryMonth: cardData.expiryMonth ? "" : "Mes de expiración es requerido",
+      expiryYear: cardData.expiryYear ? "" : "Año de expiración es requerido",
+      cvv: cardData.cvv ? "" : "CVV es requerido"
+    }
 
+    setErrors(newErrors)
+
+    // Verificar si hay errores
+    const hasErrors = Object.values(newErrors).some(error => error !== "")
+    if (hasErrors) {
+      return
+    }
+
+    setLoading(true)
     // Aquí iría la lógica para procesar el pago
-    // Por ahora, simplemente redirigimos a la página de confirmación
-    router.push("/confirmacion")
   }
 
-
-   const formatShortDate = (dateString: string) => {
+  const formatShortDate = (dateString: string) => {
     if (!dateString) return ""
     const [year, month, day] = dateString.split("-").map((num) => Number.parseInt(num, 10))
     const date = new Date(year, month - 1, day, 12, 0, 0)
@@ -118,14 +232,13 @@ export default function PagoPage() {
     })
   }
 
-
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-      <div className="text-center">
-        <img src="/loading.gif" alt="Cargando..." className="w-32 h-32 mx-auto" />
+        <div className="text-center">
+          <img src="/loading.gif" alt="Cargando..." className="w-32 h-32 mx-auto" />
+        </div>
       </div>
-    </div>
     )
   }
 
@@ -135,33 +248,33 @@ export default function PagoPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-x-4">
-             <Link href="/">
-             <SiteLogo className="h-8" />
-             </Link>
+              <Link href="/">
+                <SiteLogo className="h-8" />
+              </Link>
               
-               <div className="mb-5">
-              <div className="text-center flex flex-col">
-            <div className="flex">
-              <h1 className="text-lg font-bold">
-                {origin.slice(0, origin.length - 5)} a {destination.slice(0, destination.length - 5)}
-              </h1>
-            </div>
-            <div className="flex">
-              <section className="flex items-center gap-x-2 mt-2">
-                <p className="flex items-center gap-x-2">
-                  <PlaneTakeoff width={20} color="black" /> {formatShortDate(departureDate)}
-                </p>
-                {tripType === "roundTrip" && returnDate && (
-                  <p className="flex items-center gap-x-2">
-                    <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
-                    {formatShortDate(returnDate)}
-                  </p>
-                )}
-                <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
-              </section>
-            </div>
-          </div>
-             </div>
+              <div className="mb-5">
+                <div className="text-center flex flex-col">
+                  <div className="flex">
+                    <h1 className="text-lg font-bold">
+                      {origin.slice(0, origin.length - 5)} a {destination.slice(0, destination.length - 5)}
+                    </h1>
+                  </div>
+                  <div className="flex">
+                    <section className="flex items-center gap-x-2 mt-2">
+                      <p className="flex items-center gap-x-2">
+                        <PlaneTakeoff width={20} color="black" /> {formatShortDate(departureDate)}
+                      </p>
+                      {tripType === "roundTrip" && returnDate && (
+                        <p className="flex items-center gap-x-2">
+                          <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
+                          {formatShortDate(returnDate)}
+                        </p>
+                      )}
+                      <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
+                    </section>
+                  </div>
+                </div>
+              </div>
             </div>
             <div>
               <button className="bg-white border border-gray-300 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-x-2">
@@ -175,25 +288,24 @@ export default function PagoPage() {
         </div>
       </header>
 
-       <header className="bg-black shadow-sm block md:hidden">
+      <header className="bg-black shadow-sm block md:hidden">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center"></div>
             <div>
               <button className="font-medium flex gap-x-2 items-center text-white">
-              <p className="flex items-center">
-                <ShoppingCart/>
-                <div className="relative h-3 w-3 bg-green-500 rounded-full -top-2 -left-1 "></div>
+                <p className="flex items-center">
+                  <ShoppingCart/>
+                  <div className="relative h-3 w-3 bg-green-500 rounded-full -top-2 -left-1 "></div>
                 </p>
                 <span>COP</span>
                 <span className="font-black">
-                {totalPrice.toLocaleString()}</span>
+                  {totalPrice.toLocaleString()}</span>
               </button>
             </div>
           </div>
         </div>
       </header>
-
 
       <div className="container mx-auto px-4 py-4">
         {/* Breadcrumbs */}
@@ -223,33 +335,30 @@ export default function PagoPage() {
           </div>
         </div>
 
-
-         <div className="bg-white py-4 px-3 rounded-2xl mb-4">
-                        <div className="text-center flex flex-col">
-                          <div className="flex">
-                            <h1 className="text-lg font-bold">
-                              {origin.slice(0, origin.length - 5)} a {destination.slice(0, destination.length - 5)}
-                            </h1>
-                          </div>
-                          <div className="flex">
-                            <section className="flex items-center gap-x-2 mt-2">
-                              <p className="flex items-center gap-x-2">
-                                <PlaneTakeoff width={20} color="black" /> {formatShortDate(departureDate)}
-                               
-                              </p>
-                              {tripType === "roundTrip" && returnDate && (
-                                <p className="flex items-center gap-x-2">
-                                  <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
-                                  {formatShortDate(returnDate)}
-                                </p>
-                              )}
-                              <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
-                            </section>
+        <div className="bg-white py-4 px-3 rounded-2xl mb-4">
+          <div className="text-center flex flex-col">
+            <div className="flex">
+              <h1 className="text-lg font-bold">
+                {origin.slice(0, origin.length - 5)} a {destination.slice(0, destination.length - 5)}
+              </h1>
+            </div>
+            <div className="flex">
+              <section className="flex items-center gap-x-2 mt-2">
+                <p className="flex items-center gap-x-2">
+                  <PlaneTakeoff width={20} color="black" /> {formatShortDate(departureDate)}
+                </p>
+                {tripType === "roundTrip" && returnDate && (
+                  <p className="flex items-center gap-x-2">
+                    <PlaneTakeoff width={20} color="black" className="scale-x-[-1]" />
+                    {formatShortDate(returnDate)}
+                  </p>
+                )}
+                <p> {` • ${passengers} ${passengers === 1 ? "adulto" : "adultos"}`}</p>
+              </section>
+            </div>
+          </div>
+        </div>
         
-                          
-                          </div>
-                        </div>
-                      </div>
         <h1 className="text-2xl font-bold mb-6">Pagar y confirmar reserva</h1>
 
         <div className="flex flex-col md:flex-row gap-6">
@@ -280,7 +389,6 @@ export default function PagoPage() {
                 <div className="mt-2 flex items-center space-x-2 md:space-x-4">
                   <img src="/pse.png" alt="Banco 1" className="h-8 md:h-12" />
                   <img src="/daviplata.webp" alt="Banco 2" className="h-10 md:h-14" />
-                 
                 </div>
               </button>
             </div>
@@ -288,23 +396,21 @@ export default function PagoPage() {
             {/* Datos de la tarjeta */}
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <section className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-             <h2 className="text-lg font-black">Datos de la tarjeta</h2>
-              <div className="flex py-3 ">
-                <div className="flex space-x-2">
-                  <div className="border border-gray-300 p-2 rounded-lg">
-                  <img src="/visa.png" alt="Visa" className="h-6" />
+                <h2 className="text-lg font-black">Datos de la tarjeta</h2>
+                <div className="flex py-3">
+                  <div className="flex space-x-2">
+                    <div className={`border ${cardData.cardType === 'visa' ? 'border-red-500' : 'border-gray-300'} p-2 rounded-lg`}>
+                      <img src="/visa.png" alt="Visa" className="h-6" />
+                    </div>
+                    <div className={`border ${cardData.cardType === 'amex' ? 'border-red-500' : 'border-gray-300'} p-2 rounded-lg`}>
+                      <img src="/americard.png" alt="Amex" className="h-6" />
+                    </div>
+                    <div className={`border ${cardData.cardType === 'mastercard' ? 'border-red-500' : 'border-gray-300'} p-2 rounded-lg`}>
+                      <img src="/mastercad.png" alt="Mastercard" className="h-6" />
+                    </div>
                   </div>
-                    <div className="border border-gray-300 p-2 rounded-lg">
-                 <img src="/americard.png" alt="Amex" className="h-6" />
-                 </div>
-                 <div className="border border-gray-300 p-2 rounded-lg">
-                    <img src="/mastercad.png" alt="Mastercard" className="h-6" />
-                 </div>
-
                 </div>
-              </div>
               </section>
-             
 
               <div className="space-y-4">
                 <div>
@@ -318,8 +424,9 @@ export default function PagoPage() {
                     value={cardData.cardholderName}
                     onChange={handleInputChange}
                     className="w-full p-3 border border-gray-300 rounded-lg"
-                    placeholder=""
+                    placeholder="Como aparece en la tarjeta"
                   />
+                  {errors.cardholderName && <p className="text-red-500 text-xs mt-1">{errors.cardholderName}</p>}
                 </div>
 
                 <div>
@@ -333,8 +440,10 @@ export default function PagoPage() {
                     value={cardData.cardNumber}
                     onChange={handleInputChange}
                     className="w-full p-3 border border-gray-300 rounded-lg"
-                    placeholder=""
+                    placeholder={cardData.cardType === 'amex' ? "0000 000000 00000" : "0000 0000 0000 0000"}
+                    maxLength={cardData.cardType === 'amex' ? 17 : 19}
                   />
+                  {errors.cardNumber && <p className="text-red-500 text-xs mt-1">{errors.cardNumber}</p>}
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
@@ -356,6 +465,7 @@ export default function PagoPage() {
                         </option>
                       ))}
                     </select>
+                    {errors.expiryMonth && <p className="text-red-500 text-xs mt-1">{errors.expiryMonth}</p>}
                   </div>
 
                   <div className="col-span-1">
@@ -371,11 +481,12 @@ export default function PagoPage() {
                     >
                       <option value="">Año</option>
                       {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i).map((year) => (
-                        <option key={year} value={year}>
+                        <option key={year} value={year.toString().slice(-2)}>
                           {year}
                         </option>
                       ))}
                     </select>
+                    {errors.expiryYear && <p className="text-red-500 text-xs mt-1">{errors.expiryYear}</p>}
                   </div>
 
                   <div className="col-span-1">
@@ -390,9 +501,10 @@ export default function PagoPage() {
                       value={cardData.cvv}
                       onChange={handleInputChange}
                       className="w-full p-3 border border-gray-300 rounded-lg"
-                      placeholder=""
-                      maxLength={4}
+                      placeholder={cardData.cardType === 'amex' ? "4 dígitos" : "3 dígitos"}
+                      maxLength={cardData.cardType === 'amex' ? 4 : 3}
                     />
+                    {errors.cvv && <p className="text-red-500 text-xs mt-1">{errors.cvv}</p>}
                   </div>
                 </div>
               </div>
@@ -522,16 +634,16 @@ export default function PagoPage() {
                   </span>
                 </div>
                 <section className="flex justify-between items-center mb-4">
-              <div className="text-sm text-gray-600 mb-2">{formatShortDate(departureDate)}</div>
-                <div className="text-xs text-center mt-1">
-                      <span className="bg-red-600 text-white px-2 py-0.5 rounded-full">{returnFareType}</span>
-                    </div>
+                  <div className="text-sm text-gray-600 mb-2">{formatShortDate(departureDate)}</div>
+                  <div className="text-xs text-center mt-1">
+                    <span className="bg-red-600 text-white px-2 py-0.5 rounded-full">{returnFareType}</span>
+                  </div>
                 </section>
-               <div className="flex justify-center items-center gap-x-2">
-                      <p className="text-xs underline text-[#104A50]">Directo</p>
-                      <p>|</p>
-                      <p className="text-xs">{outboundDuration}</p>
-                    </div>
+                <div className="flex justify-center items-center gap-x-2">
+                  <p className="text-xs underline text-[#104A50]">Directo</p>
+                  <p>|</p>
+                  <p className="text-xs">{outboundDuration}</p>
+                </div>
                 <div className="flex items-center justify-between mb-2"> 
                   <div className="text-xl font-bold">{outboundDepartureTime}</div>
                   <div className="flex-1 mx-4">
@@ -540,7 +652,6 @@ export default function PagoPage() {
                       <div className="absolute top-0 left-0 -mt-1 -ml-1 w-2 h-2 rounded-full bg-[#104A50]"></div>
                       <div className="absolute top-0 right-0 -mt-1 -mr-1 w-2 h-2 rounded-full bg-[#104A50]"></div>
                     </div>
-          
                   </div>
                   <div className="text-xl font-bold">{outboundArrivalTime}</div>
                 </div>
@@ -548,30 +659,29 @@ export default function PagoPage() {
                 <div className="text-xs bg-gray-50 text-gray-500 text-center py-1">
                   <p>Operado por Avianca</p>
                 </div>
-
               </div>
 
               {/* Vuelo de vuelta */}
               <div className="mb-4 pt-4 border-t border-gray-200">
                 <h3 className="font-medium mb-2">Vuelta</h3>
                 <div className="flex items-center mb-2">
-                  <PlaneTakeoff className="h-4 w-4 mr-2  scale-x-[-1]"  />
+                  <PlaneTakeoff className="h-4 w-4 mr-2 scale-x-[-1]" />
                   <span className="text-sm">
                     {destination} a {origin}
                   </span>
                 </div>
                 <section className="flex justify-between items-center mb-4">
-              <div className="text-sm text-gray-600 mb-2">{formatShortDate(returnDate)}</div>
-                <div className="text-xs text-center mt-1">
-                      <span className="bg-red-600 text-white px-2 py-0.5 rounded-full">{returnFareType}</span>
-                    </div>
+                  <div className="text-sm text-gray-600 mb-2">{formatShortDate(returnDate)}</div>
+                  <div className="text-xs text-center mt-1">
+                    <span className="bg-red-600 text-white px-2 py-0.5 rounded-full">{returnFareType}</span>
+                  </div>
                 </section>
                
                 <div className="flex justify-center items-center gap-x-2">
-                      <p className="text-xs underline text-[#104A50]">Directo</p>
-                      <p>|</p>
-                      <p className="text-xs">{returnDuration}</p>
-                    </div>
+                  <p className="text-xs underline text-[#104A50]">Directo</p>
+                  <p>|</p>
+                  <p className="text-xs">{returnDuration}</p>
+                </div>
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-xl font-bold">{returnDepartureTime}</div>
                   <div className="flex-1 mx-4">
@@ -580,7 +690,6 @@ export default function PagoPage() {
                       <div className="absolute top-0 left-0 -mt-1 -ml-1 w-2 h-2 rounded-full bg-[#104A50]"></div>
                       <div className="absolute top-0 right-0 -mt-1 -mr-1 w-2 h-2 rounded-full bg-[#104A50]"></div>
                     </div>
-                    
                   </div>
                   <div className="text-xl font-bold">{returnArrivalTime}</div>
                 </div>
@@ -614,7 +723,7 @@ export default function PagoPage() {
                       <span>Vuelo vuelta</span>
                       <span>COP {returnPrice.toLocaleString("es-CO")}</span>
                     </div>
-                       <div className="flex justify-between">
+                    <div className="flex justify-between">
                       <span>Servicios</span>
                       <span>COP {servicesTotal.toLocaleString("es-CO")}</span>
                     </div>
