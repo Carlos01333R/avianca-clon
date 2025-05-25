@@ -99,6 +99,7 @@ export default function PagoPage() {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
+    setLoading(true)
 
     // Aquí iría la lógica para procesar el pago
     // Por ahora, simplemente redirigimos a la página de confirmación
@@ -639,7 +640,7 @@ export default function PagoPage() {
               onClick={handleSubmit}
               className="bg-black text-white rounded-full px-8 py-3 font-medium hover:bg-black/80 transition"
             >
-              Continuar
+              {loading ? "Procesando..." : "Continuar"}
             </button>
           </div>
         </div>
