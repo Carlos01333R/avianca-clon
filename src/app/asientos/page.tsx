@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { ChevronRight, X, ChevronDown, PlaneTakeoff, Users } from "lucide-react"
 import { SiteLogo } from "@/components/ui/site-logo"
+import Link from "next/link"
 
 export default function AsientosPage() {
   const searchParams = useSearchParams()
@@ -233,7 +234,10 @@ export default function AsientosPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-x-4">
-              <SiteLogo className="h-8" />
+              <Link href="/">
+                  <SiteLogo className="h-8" />
+              </Link>
+          
               <div className="mb-5">
                 <div className="text-center flex flex-col">
                   <div className="flex">

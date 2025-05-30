@@ -7,11 +7,12 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { SiteLogo } from "@/components/ui/site-logo"
 import { Eye, EyeOff } from "lucide-react"
-import { useAuth } from "@/hooks/use-auth"
+import { supabase } from "@/lib/supabase"
+import { redirect } from 'next/navigation'
+
 
 export default function LoginPage() {
   const router = useRouter()
-  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -23,29 +24,21 @@ export default function LoginPage() {
     setError("")
     setLoading(true)
 
-    try {
-      // Simulamos una pequeña demora para dar sensación de procesamiento
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+   // iniciar sesión
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
 
-      // Validación básica
-      if (!email || !password) {
-        throw new Error("Por favor complete todos los campos")
-      }
-
-      if (password.length < 6) {
-        throw new Error("La contraseña debe tener al menos 6 caracteres")
-      }
-
-      // Iniciar sesión (guardar en localStorage)
-      login({ email, name: email.split("@")[0] })
-
-      // Redirigir al usuario
-      router.push("/")
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al iniciar sesión")
-    } finally {
+     if (authError) {
+      setError(authError.message)
       setLoading(false)
+      return
     }
+
+    // Forzar recarga para sincronizar el estado de autenticación
+    router.refresh()
+    router.push('/informes/cuentas')
   }
 
   return (
@@ -56,13 +49,8 @@ export default function LoginPage() {
             <SiteLogo className="h-12" />
           </Link>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Inicia sesión en tu cuenta</h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          ¿No tienes una cuenta?{" "}
-          <Link href="/registro" className="font-medium text-emerald-600 hover:text-emerald-500">
-            Regístrate
-          </Link>
-        </p>
+      
+       
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -134,11 +122,7 @@ export default function LoginPage() {
                 </label>
               </div>
 
-              <div className="text-sm">
-                <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
-                  ¿Olvidaste tu contraseña?
-                </a>
-              </div>
+           
             </div>
 
             <div>

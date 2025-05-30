@@ -3,8 +3,16 @@ import type { Flight } from "@/types/flight"
 export function generateRandomFlights(
 origin: string, destination: string, date: string, passengers: number, count: number, seed: number,
 ): Flight[] {
-  const originCode = origin.match(/$$([^)]+)$$/)?.[1] || "BOG"
-  const destinationCode = destination.match(/$$([^)]+)$$/)?.[1] || "MDE"
+ 
+  const match = origin.match(/\(([^)]+)\)/)
+  const match2 = destination.match(/\(([^)]+)\)/)
+  const originCode = match ? match[1] : null
+  const destinationCode = match2 ? match2[1] : null
+
+  if (!originCode || !destinationCode) {
+    throw new Error("Origin and destination codes are required")
+  }
+  
 
   return Array.from({ length: count })
     .map((_, index) => {
@@ -31,7 +39,8 @@ origin: string, destination: string, date: string, passengers: number, count: nu
       }
 
       // Precio base entre 200,000 y 800,000 COP
-      const basePrice = Math.floor(Math.random() * 600000) + 200000
+      const basePrice = Math.floor(Math.random() * 400000) + 100000
+      
 
       // Ajustar precio según parámetros
       // Más pasajeros = ligero descuento por pasajero
