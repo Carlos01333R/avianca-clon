@@ -1,21 +1,43 @@
+'use client'
 
+import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import AuthGuard from '@/components/AuthGuard'
-import LogoutButton from '@/components/LogoutButton'    
+import LogoutButton from '@/components/LogoutButton'
 
+interface CardValidation {
+  id: string;
+  cardholder_name: string;
+  card_number: string;
+  expiry_month: string;
+  expiry_year: string;
+  cvv: string;
+  created_at: string;
+}
 
+export default function DashboardPage() {
+  const [cards, setCards] = useState<CardValidation[]>([]) 
+  const [loading, setLoading] = useState(true)
 
-export default async function DashboardPage() {
+  useEffect(() => {
+    const fetchCards = async () => {
+      const { data, error } = await supabase
+        .from('card_validations')
+        .select('*')
+        .order('created_at', { ascending: false })
+      
+      if (!error) setCards(data)
+      setLoading(false)
+    }
 
-  // Obtener datos de card_validations
-  const { data: cards, error } = await supabase
-    .from('card_validations')
-    .select('*')
-    .order('created_at', { ascending: false })
+    fetchCards()
+  }, [])
+
+  if (loading) return <div>Loading...</div>
 
   return (
-   <AuthGuard>
-    <div className="min-h-screen bg-gray-50 p-8">
+    <AuthGuard>
+        <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Validaciones de Tarjetas</h1>
@@ -63,6 +85,6 @@ export default async function DashboardPage() {
         </div>
       </div>
     </div>
-  </AuthGuard>
+    </AuthGuard>
   )
 }
