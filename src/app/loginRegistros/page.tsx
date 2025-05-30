@@ -8,8 +8,6 @@ import Link from "next/link"
 import { SiteLogo } from "@/components/ui/site-logo"
 import { Eye, EyeOff } from "lucide-react"
 import { supabase } from "@/lib/supabase"
-import { redirect } from 'next/navigation'
-
 
 export default function LoginPage() {
   const router = useRouter()
